@@ -42,6 +42,7 @@ public class ControllerSupervisor implements ActionListener {
         if (e.getSource() == vista.btnAgregarCajero) {
             JDialog vac = new JDialog(vista, true);
             PanelAgergarCajero panel = new PanelAgergarCajero();
+            
             CRUD crud = new CRUD();
             ControllerPanelAgregarCajero c = new ControllerPanelAgregarCajero(panel, crud);
             
@@ -49,7 +50,12 @@ public class ControllerSupervisor implements ActionListener {
             vac.setSize(470, 650);
             vac.setResizable(false);
             vac.setLocationRelativeTo(null);
+            
+            panel.cboDia.setModel(c.getListaFecha().get(2));
+            panel.cboMes.setModel(c.getListaFecha().get(1));
+            panel.cboAnio.setModel(c.getListaFecha().get(0));
             panel.cboDominios.setModel(c.getListaDominios());
+            
             vac.setVisible(true);
         }
         if (e.getSource() == vista.btnTemaClaro) {
