@@ -3,6 +3,7 @@
 #include <vector>
 #include <ctime>
 #include <fstream>
+#include <windows.h>
 
 class AutomataFD {
 private:
@@ -157,7 +158,7 @@ public:
 		}
 };
 
-int main(int argc, char* argv[]) {
+int main() {
 	AutomataFD* afd = new AutomataFD(56);
 	
 	afd->estadoInicial("q0");
@@ -170,27 +171,24 @@ int main(int argc, char* argv[]) {
 	
 	std::string s;
 	
-	std::ifstream cadena("cadena.txt", std::ios::in);
-	std::ofstream salida("salida.txt", std::ios::out);
-	if (salida.is_open()) {
-		std::remove("salida.txt");
-		salida.close();
-	}
+	char buffer[MAX_PATH];
+	GetModuleFileName( NULL, buffer, MAX_PATH );
+	std::string fileName = std::string(buffer);
+	std::string directory = fileName.substr(0, fileName.find_last_of("\\/")); // get path directory
 	
-	salida.open("salida.txt", std::ios::out);
+	std::string fileCadena = directory + "/cadena.txt";
+	std::ifstream cadena(fileCadena, std::ios::in);
 	
 	if (cadena.is_open()) {
 		std::getline(cadena, s);
 		cadena.close();
-		std::remove("cadena.txt");
-	}
-	else salida << "false";
+		std::remove(fileCadena.c_str());
+	} else std::cout << 0;
 	
-	if (afd->isCadenaValida(s)) salida << "true";
-	else salida << "false";
+	if (s.length() >= 5 && s.length() <= 20)
+		if (afd->isCadenaValida(s)) std::cout << 1;
+		else std::cout << 0;
+	else std::cout << 0;
 	
-	salida.close();
-	
-	//system("pause");
 	return 0;
 }
