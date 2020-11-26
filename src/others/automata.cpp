@@ -1,100 +1,196 @@
 #include <iostream>
-#include <cstring>
-//no se usara using namespace std;
+#include <string>
+#include <vector>
+#include <ctime>
+#include <fstream>
 
-//La funcion comvierte un numero entero a un char. Por ejemplo
-//128 lo convierte a "128"
-char* intToArrayChar(int N) 
-{ 
-	int m = N; 
-	int digit = 0; 
-	while (m)
-	{ 
-		digit++; 
-		m /= 10; 
-	} 
-	char *arr = new char[digit];
-	char *arr1 = new char[digit]; 
+class AutomataFD {
+private:
+	//Sirve para guardar un estado (actual y siguiente), su nombre (actual y siguiente) y transicion (que apunta)
+	struct Estado {
+		// 0: Estado inicial, 1: Estado terminal, 2: Ninguno, 3: Ambos (EI y ET)
+		Estado() {
+			//this->transicion.push_back('?');
+			this->estadoActual = '2';
+			this->estadoApuntado = '2';
+			//this->nombreActual = " ";
+			//this->nombreApuntado = " ";
+		}
 	
-	int index = 0; 
-	while (N)
-	{ 
-		arr1[++index] = N % 10 + '0'; 
-		N /= 10; 
-	} 
+	Estado(std::vector<char> transicion, char estadoActual, char estadoApuntado, std::string nombreActual, std::string nombreApuntado) {
+		this->transicion = transicion;
+		this->estadoActual = estadoActual;
+		this->estadoApuntado = estadoApuntado;
+		this->nombreActual = nombreActual;
+		this->nombreApuntado = nombreApuntado;
+	}
 	
-	int i; 
-	for (i = 0; i < index; i++) 
-	{ 
-		arr[i] = arr1[index - i]; 
-	} 
-	arr[i] = '\0'; 
+	std::vector<char> transicion;
+	char estadoActual;
+	char estadoApuntado;
+	std::string nombreActual;
+	std::string nombreApuntado;
+	};
+	int numeroEstados{};
+	std::string nombreEstadoInicial{};
+	Estado** matrizAdyacencia{};
 	
-	return arr;
-} 
-
-//La funcion adelanta 13 letras del abecedario. Por ejemplo
-//A + 13 = N
-void toRot13(char *texto)
-{
-	while (*texto != '\0')
-	{
-		if (*texto >= 'A' && *texto <= 'M')
-		{
-			*texto = *texto + 13;
-			texto++;
+	bool buscarCoincidencia(std::vector <char> auxTrans, char aux, bool& isCorrecto) {
+		for (int i = 0; i < (int)auxTrans.size(); i++) {
+			if (aux == auxTrans[i]) {
+				isCorrecto = true;
+				return true;
+			}
+			if (auxTrans[i] == '\0') {
+				isCorrecto = true;
+				return true;
+			}
+			else isCorrecto = false;
 		}
-		else if (*texto >= 'O' && *texto <= 'Z')
-		{
-			*texto = *texto - 13;
-			texto++;
-		}
-		else if (*texto >= 'a' && *texto <= 'm')
-		{
-			*texto = *texto + 13;
-			texto++;
-		}
-		else if (*texto >= 'o' && *texto <= 'z')
-		{
-			*texto = *texto - 13;
-			texto++;
-		}
-		else if (*texto = ' ')
-		{
-			*texto = 32;
-			texto++;
-		}
+		return false;
 	}
-}
-
-//La funcion convierte cada caracter a su respectivo numero ASCII
-//lo que retorna es un arreglo de esos numeros ASCII
-char* arrayCharToArrayCharASCII(char* textoConvertido)
-{
-	char *acum = new char[100];
-	for(int i = 0; i < strlen(acum); i++)
-	{
-		acum[i] = '\0';
-	}
-	while (*textoConvertido != '\0')
-	{
-		char* c = intToArrayChar(*textoConvertido);
-		textoConvertido++;
-		strcat(acum, c);
-		if(*textoConvertido != '\0' )
-		{
-			strcat(acum, "-");
+public:
+		// Define el numero de estados
+		AutomataFD(int numeroEstados) {
+			this->numeroEstados = numeroEstados;
+			// Crea arreglo dinamico de 2 dimensiones
+			matrizAdyacencia = new Estado * [numeroEstados];
+			for (int i = 0; i < numeroEstados; i++)
+				matrizAdyacencia[i] = new Estado[numeroEstados];
+			
+			// Llena valores con estados vacios
+			for (int i = 0; i < numeroEstados; i++)
+				for (int j = 0; j < numeroEstados; j++)
+					matrizAdyacencia[i][j] = Estado();
 		}
-	}
-	return acum;
-}
+		
+		void estadoInicial(std::string nombreActual) {
+			nombreEstadoInicial = nombreActual;
+			
+			//int indice = nombreActual[1] - '0';
+			int indice = (int)atoi(nombreActual.substr(1, nombreActual.length() - 1).c_str());
+			for (int i = 0; i < numeroEstados; i++) {
+				for (int j = 0; j < numeroEstados; j++) {
+					if (i == indice) {
+						if (matrizAdyacencia[i][j].estadoActual == '1') {
+							char aux = matrizAdyacencia[i][j].estadoApuntado;
+							std::vector<char> auxT = matrizAdyacencia[i][j].transicion;
+							matrizAdyacencia[i][j] = Estado(auxT, '3', aux, nombreActual, " ");
+						}
+						else {
+							char aux = matrizAdyacencia[i][j].estadoApuntado;
+							std::vector<char> auxT = matrizAdyacencia[i][j].transicion;
+							matrizAdyacencia[i][j] = Estado(auxT, '0', aux, nombreActual, " ");
+						}
+					}
+				}
+			}
+		}
+		
+		void estadoFinal(std::string nombreActual) {
+			int indice = (int)atoi(nombreActual.substr(1, nombreActual.length() - 1).c_str());
+			
+			for (int i = 0; i < numeroEstados; i++) {
+				for (int j = 0; j < numeroEstados; j++) {
+					if (i == indice) {
+						if (matrizAdyacencia[i][j].estadoActual == '0') {
+							char aux = matrizAdyacencia[i][j].estadoApuntado;
+							std::vector<char> auxT = matrizAdyacencia[i][j].transicion;
+							matrizAdyacencia[i][j] = Estado(auxT, '3', aux, nombreActual, " ");
+						}
+						else {
+							char aux = matrizAdyacencia[i][j].estadoApuntado;
+							std::vector<char> auxT = matrizAdyacencia[i][j].transicion;
+							matrizAdyacencia[i][j] = Estado(auxT, '1', aux, nombreActual, " ");
+						}
+					}
+				}
+			}
+		}
+		
+		void agregarTransicion(std::string nombreActual, char valorTransicion, std::string nombreApuntado) {
+			int indiceActual = (int)atoi(nombreActual.substr(1, nombreActual.length() - 1).c_str());
+			int indiceApuntado = (int)atoi(nombreApuntado.substr(1, nombreApuntado.length() - 1).c_str());
+			
+			char aux1 = matrizAdyacencia[indiceActual][indiceApuntado].estadoActual;
+			char aux2 = matrizAdyacencia[indiceActual][indiceApuntado].estadoApuntado;
+			std::vector<char> aux3 = matrizAdyacencia[indiceActual][indiceApuntado].transicion;
+			aux3.push_back(valorTransicion);
+			matrizAdyacencia[indiceActual][indiceApuntado] = Estado(aux3, aux1, aux2, nombreActual, nombreApuntado);
+		}
+		
+		bool isCadenaValida(std::string cadena) {
+			std::string auxAnterior = nombreEstadoInicial;
+			Estado auxEstadoAnterior;
+			bool isCorrecto = false;
+			int x = 0;
+			for (int i = 0; i < numeroEstados; i++, x++) {
+				for (int j = 0; j < numeroEstados; j++) {
+					if (x == (int)cadena.length() && (matrizAdyacencia[i][j].estadoActual == '1' || matrizAdyacencia[i][j].estadoActual == '3') && isCorrecto) {
+						return true;
+					}
+					else if (x == (int)cadena.length() && (matrizAdyacencia[i][j].estadoActual == '0' || matrizAdyacencia[i][j].estadoActual == '2')) {
+						return false;
+					}
+					else if (matrizAdyacencia[i][j].nombreActual == auxAnterior && buscarCoincidencia(matrizAdyacencia[i][j].transicion, cadena[x], isCorrecto)) { //
+						if (matrizAdyacencia[i][j].transicion[0] != '\0') {
+							auxEstadoAnterior = matrizAdyacencia[i][j];
+							auxAnterior = matrizAdyacencia[i][j].nombreApuntado;
+							i = atoi(matrizAdyacencia[i][j].nombreApuntado.substr(1, matrizAdyacencia[i][j].nombreApuntado.length() - 1).c_str()) - 1;
+							isCorrecto = true;
+							j = numeroEstados;
+						}
+						else {
+							auxEstadoAnterior = matrizAdyacencia[i][j];
+							auxAnterior = matrizAdyacencia[i][j].nombreApuntado;
+							i = atoi(matrizAdyacencia[i][j].nombreApuntado.substr(1, matrizAdyacencia[i][j].nombreApuntado.length() - 1).c_str()) - 1;
+							x--;
+							j = numeroEstados;
+						}
+					}
+					else if (auxAnterior == nombreEstadoInicial && j == numeroEstados - 1) {
+						x = -1;
+					}
+				}
+			}
+			return isCorrecto;
+		}
+};
 
-int main()
-{
-	char texto[] = "HOLA";	// UBYN -> 85-66-89-78
-	toRot13(texto);
-	char* a = arrayCharToArrayCharASCII(texto);
-	std::cout << texto << std::endl;
-	std::cout << a << std::endl;
+int main(int argc, char* argv[]) {
+	AutomataFD* afd = new AutomataFD(56);
+	
+	afd->estadoInicial("q0");
+	afd->estadoFinal("q1");
+	
+	afd->agregarTransicion("q0", '\0', "q1");
+	
+	for (int i = 33; i <= 122; i++)
+		afd->agregarTransicion("q1", i, "q1");
+	
+	std::string s;
+	
+	std::ifstream cadena("cadena.txt", std::ios::in);
+	std::ofstream salida("salida.txt", std::ios::out);
+	if (salida.is_open()) {
+		std::remove("salida.txt");
+		salida.close();
+	}
+	
+	salida.open("salida.txt", std::ios::out);
+	
+	if (cadena.is_open()) {
+		std::getline(cadena, s);
+		cadena.close();
+		std::remove("cadena.txt");
+	}
+	else salida << "false";
+	
+	if (afd->isCadenaValida(s)) salida << "true";
+	else salida << "false";
+	
+	salida.close();
+	
+	//system("pause");
 	return 0;
 }
