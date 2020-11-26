@@ -54,19 +54,23 @@ public class ControllerPanelAgregarCajero {
         DefaultComboBoxModel auxMes = new DefaultComboBoxModel();
         DefaultComboBoxModel auxDia = new DefaultComboBoxModel();
         
+        auxAnio.addElement("Año");
+        
         for (int i = 1900; i <= year - 18; i++) {
             auxAnio.addElement(new Anio(i));
         }
-        
         arregloDCM.add(auxAnio);
+        
+        auxMes.addElement("Mes");
         String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto",
             "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
         for (int i = 0; i < 12; i++) {
             auxMes.addElement(new Mes(i + 1, meses[i]));
         }
-        
         arregloDCM.add(auxMes);
+        
+        auxDia.addElement("Día");
         for (int i = 1; i <= 31; i++) {
             auxDia.addElement(new Dia(i));
         }

@@ -12,10 +12,10 @@ public class Conexion {
     }
     
     public Connection getConexion() {
-	URL =   "jdbc:sqlserver://shop-server-upn.database.windows.net:1433;"
+	URL =   "jdbc:sqlserver://upn-shop-server.database.windows.net:1433;"
 		+ "database=shop-database;"
-		+ "user=Administrador@shop-server-upn;"
-		+ "password=integrante1029_;"
+		+ "user=administrador@upn-shop-server;"
+		+ "password=querty123_;"
 		+ "encrypt=true;"
 		+ "trustServerCertificate=false;"
 		+ "hostNameInCertificate=*.database.windows.net;"
@@ -31,14 +31,16 @@ public class Conexion {
         return con;  
     }
     public void setConexion(String user, String password) {
-	URL =   "jdbc:sqlserver://shop-server-upn.database.windows.net:1433;"
+	URL =   "jdbc:sqlserver://upn-shop-server.database.windows.net:1433;"
 		+ "database=shop-database;"
-		+ "user=" + user + "@shop-server-upn;"
+		+ "user=" + user + "@upn-shop-server;"
 		+ "password=" + password + ";"
 		+ "encrypt=true;"
 		+ "trustServerCertificate=false;"
 		+ "hostNameInCertificate=*.database.windows.net;"
 		+ "loginTimeout=30;";
+        //Server=.\SQLExpress;AttachDBFileName=c:\dir\\mydb.mdf;Database=dbName;Trusted_Connection=yes;
+        
 	java.sql.Connection con = null;
 	try {
 	    con = java.sql.DriverManager.getConnection(URL);

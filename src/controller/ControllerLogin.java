@@ -51,7 +51,7 @@ public class ControllerLogin implements ActionListener {
     }
 
     public void nextForm(String txt) {
-        if (txt.compareTo("Administrador") == 0) {
+        if (txt.compareTo("administrador") == 0) {
             FrmSupervisor form = new FrmSupervisor();
             Conexion modelo = new Conexion();
             ControllerSupervisor controlador = new ControllerSupervisor(form, modelo);

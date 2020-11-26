@@ -11,22 +11,23 @@ public class CRUD extends Conexion {
     Statement stmt = null;
     ResultSet rs = null;
 
-//    public boolean insert(String query) {
-//        Connection conexion = getConexion();
-//        try {
-//            int resultado = stmt.executeUpdate(query);
-//            return resultado > 0;
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-//            return false;
-//        } finally {
-//            try {
-//                conexion.close();
-//            } catch (SQLException ex) {
-//                JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-//            }
-//        }
-//    }
+    public boolean insert(String query) {
+        Connection conexion = getConexion();
+        try {
+            int resultado = stmt.executeUpdate(query);
+            return resultado > 0;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+            return false;
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+            }
+        }
+    }
+    
     public ResultSet select(String query) {
         Connection conexion = getConexion();
         try {
@@ -35,13 +36,6 @@ public class CRUD extends Conexion {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error:\n" + ex);
         }
-//        } finally {
-//            try {
-//                conexion.close();
-//            } catch (SQLException ex) {
-//                JOptionPane.showMessageDialog(null, "Error2:\n" + ex);
-//            }
-//        }
         return rs;
     }
 
