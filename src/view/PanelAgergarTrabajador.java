@@ -9,12 +9,12 @@ package view;
  *
  * @author joaoe
  */
-public class PanelAgergarCajero extends javax.swing.JPanel {
+public class PanelAgergarTrabajador extends javax.swing.JPanel {
 
     /**
      * Creates new form PanelAgergarCajero
      */
-    public PanelAgergarCajero() {
+    public PanelAgergarTrabajador() {
         initComponents();
     }
 
@@ -105,7 +105,7 @@ public class PanelAgergarCajero extends javax.swing.JPanel {
         jLabel5.setText("Nombres");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setText("Datos del cajero");
+        jLabel8.setText("Datos del ");
 
         txtNombres.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -177,7 +177,8 @@ public class PanelAgergarCajero extends javax.swing.JPanel {
                         .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnGenerarPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnAgregarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnAgregarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,7 +234,8 @@ public class PanelAgergarCajero extends javax.swing.JPanel {
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGenerarPassword))
                 .addGap(34, 34, 34)
-                .addComponent(btnAgregarUsuario))
+                .addComponent(btnAgregarUsuario)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -257,7 +259,7 @@ public class PanelAgergarCajero extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    public javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     public javax.swing.JTextField txtCorreo;
     public javax.swing.JTextField txtDNI;

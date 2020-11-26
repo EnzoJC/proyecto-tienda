@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 import model.database.CRUD;
 import model.database.Conexion;
 import view.FrmSupervisor;
-import view.PanelAgergarCajero;
+import view.PanelAgergarTrabajador;
 
 public class ControllerSupervisor implements ActionListener {
 
@@ -38,7 +38,7 @@ public class ControllerSupervisor implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == vista.btnAgregarCajero) {
             JDialog vac = new JDialog(vista, true);
-            PanelAgergarCajero panel = new PanelAgergarCajero();
+            PanelAgergarTrabajador panel = new PanelAgergarTrabajador();
             
             CRUD crud = new CRUD();
             ControllerPanelAgregarCajero c = new ControllerPanelAgregarCajero(panel, crud);

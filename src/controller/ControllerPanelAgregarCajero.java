@@ -14,11 +14,11 @@ import model.Dominio;
 import model.Horario;
 import model.Mes;
 import model.database.CRUD;
-import view.PanelAgergarCajero;
+import view.PanelAgergarTrabajador;
 
 public class ControllerPanelAgregarCajero {
 
-    private PanelAgergarCajero vista;
+    private PanelAgergarTrabajador vista;
     private CRUD consulta;
     private Cajero cajero;
     private Horario horario;
@@ -29,7 +29,7 @@ public class ControllerPanelAgregarCajero {
     public ControllerPanelAgregarCajero() {
     }
 
-    public ControllerPanelAgregarCajero(PanelAgergarCajero vista, CRUD consulta) {
+    public ControllerPanelAgregarCajero(PanelAgergarTrabajador vista, CRUD consulta) {
         this.vista = vista;
         this.consulta = consulta;
     }
