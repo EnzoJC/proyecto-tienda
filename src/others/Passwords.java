@@ -15,4 +15,10 @@ public class Passwords {
             password += cadena.charAt((int)(Math.random() * 50 + 1));;
         return password;
     }
+    public static String encriptar(){
+	return "";
+    }
+    public static String desencriptar(){
+	return "";
+    }
 }

@@ -40,7 +40,6 @@ private:
 			this->nombreApuntado = nombreApuntado;
 		}
 		
-		private: 
 			std::vector<char> transicion;
 			char estadoActual;
 			char estadoApuntado;
@@ -66,14 +65,6 @@ private:
 			else isCorrecto = false;
 		}
 		return false;
-	}
-
-	// Para determinar si la contraseña es de minimo 5 caracteres o 20 como maximo
-	bool extension(std::string password) {
-		if (password.length() >= 5 && password.length() <= 20)
-			return true;
-		else
-			return false;
 	}
 
 	// Busca si dentro del arreglo existe el caracter que se le indica como parametro
@@ -181,8 +172,7 @@ public:
 		// para despues insertar la nueva transicion (en el vector auxiliar) y luego regresarlo
 
 		std::vector<char> auxTransiciones = matrizAdyacencia[indiceActual][indiceApuntado].transicion;
-		matrizAdyacencia[indiceActual][indiceApuntado].transicion.push_back();
-		aux3.push_back(valorTransicion);
+		auxTransiciones.push_back(valorTransicion);
 		matrizAdyacencia[indiceActual][indiceApuntado] = Estado(auxTransiciones, auxEstadoActual, auxEstadoApuntado, nombreActual, nombreApuntado);
 	}
 
@@ -306,41 +296,48 @@ public:
 		return isCorrecto;
 	}
 
-	bool isPasswordValido(std::string password) { // Aa1_!
-		char caracteresEspeciales[28];
-		char mayusculas[26] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-							   'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-		char minusculas[26] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-							   'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-		char numeros[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+	// Para determinar si la contraseña es de minimo 5 caracteres o 20 como maximo
+	bool extension(std::string password) {
+		if (password.length() >= 5 && password.length() <= 20)
+			return true;
+		else
+			return false;
+	}
 
+	bool isPasswordValido (std::string password) {// Aa1_!
+		char caracteresEspeciales[28];
+		char mayusculas[26]				= {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
+			'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+		char minusculas[26]				= {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+			'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+		char numeros[10]				= {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+		
 		// Para llenar los caracteres al array caracteresEspeciales[]
 		for (int i = 33; i <= 47; i++)
 			caracteresEspeciales[i - 33] = i;
-
+		
 		for (int i = 58; i <= 64; i++)
 			caracteresEspeciales[i - 43] = i;
-
+		
 		for (int i = 91; i <= 96; i++)
 			caracteresEspeciales[i - 69] = i;
-
+		
 		caracteresEspeciales[28] = '\0';
-
-		int contMayusculas = 0;
-		int cont = 0;
-
-		for (int i = 0; i < (int)password.length(); i++) {
+		
+		int contMayusculas = 0, contMinusculas = 0, contNumeros = 0, contEspeciales = 0;
+		
+		for (int i = 0; i < (int) password.length(); i++) {
 			if (buscar(password[i], mayusculas, 26))
-				++cont;
+				++contMayusculas;
 			if (buscar(password[i], minusculas, 26))
-				++cont;
+				++contMinusculas;
 			if (buscar(password[i], numeros, 10))
-				++cont;
+				++contNumeros;
 			if (buscar(password[i], caracteresEspeciales, 28))
-				++cont;
+				++contEspeciales;
 		}
-
-		if (cont >= 4)
+		
+		if (contMayusculas > 0 && contMinusculas > 0 && contNumeros > 0 && contEspeciales > 0)
 			return true;
 		else
 			return false;
