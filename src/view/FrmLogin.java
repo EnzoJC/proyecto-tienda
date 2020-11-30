@@ -3,11 +3,11 @@ package view;
 import model.database.Conexion;
 import model.database.Login;
 
-public class FrmIniciarSesion extends javax.swing.JFrame {
+public class FrmLogin extends javax.swing.JFrame {
     private Login login;
     private Conexion conexion;
     
-    public FrmIniciarSesion() {
+    public FrmLogin() {
 	initComponents();
 	this.setLocationRelativeTo(null);
 	this.setResizable(false);

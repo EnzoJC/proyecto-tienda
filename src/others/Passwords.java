@@ -1,8 +1,5 @@
 package others;
 
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 public class Passwords {
 
     public static String generar() {
@@ -20,21 +17,20 @@ public class Passwords {
 	};
 	return password;
     }
-
+    
     public static String encriptar(String password) {
 	String returnPassword = "";
 
 	for (int i = 0; i < password.length(); i++) {
-	    if (password.charAt(i) >= ((char) 33) && password.charAt(i) <= ((char) 107)) {
+	    if (password.charAt(i) >= ((char) 33) && password.charAt(i) <= ((char) 107))
 		returnPassword = returnPassword + ((char) password.charAt(i) + 15);
-	    } else if (password.charAt(i) >= ((char) 108) && password.charAt(i) <= ((char) 122)) {
+	    else if (password.charAt(i) >= ((char) 108) && password.charAt(i) <= ((char) 122)) 
 		returnPassword = returnPassword + ((char) password.charAt(i) - 75);
-	    }
 	    if (i < password.length() - 1) {
 		returnPassword += '-';
 	    }
 	}
-
+	
 	return returnPassword;
     }
 

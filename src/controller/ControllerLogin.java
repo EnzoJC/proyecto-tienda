@@ -6,29 +6,25 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import javax.swing.JOptionPane;
+import model.database.CRUD;
 import model.database.Conexion;
 import model.database.Login;
-import view.FrmIniciarSesion;
+import others.Passwords;
+import view.FrmAdmin;
+import view.FrmLogin;
 import view.FrmSupervisor;
 
 public class ControllerLogin implements ActionListener {
 
-    private FrmIniciarSesion sesion;
+    private FrmLogin sesion;
     private Login login;
     private Conexion conexion;
 
     public ControllerLogin() {
     }
 
-    public ControllerLogin(FrmIniciarSesion sesion, Login login, Conexion conexion) {
+    public ControllerLogin(FrmLogin sesion, Login login, Conexion conexion) {
 	this.sesion = sesion;
 	this.login = login;
 	this.conexion = conexion;
@@ -70,34 +66,15 @@ public class ControllerLogin implements ActionListener {
     }
 
     public void nextForm(String txtUser, String txtPassword) {
-//        if (txtUser.compareTo("administrador") == 0 && txtPassword.compareTo("querty123_") == 0) {
-	String ruta = System.getProperty("user.dir");
-	String salidaTxt = "";
-	System.out.println(salidaTxt);
-	try {
-	    try (FileWriter archivo = new FileWriter(ruta + "/src/others/cadena.txt", true)) {
-		archivo.write(txtPassword);
-	    }
-	    Process p = Runtime.getRuntime().exec(ruta + "/src/others/automata.exe ");
-	    InputStream is = p.getInputStream();
-	    BufferedReader br = new BufferedReader(new InputStreamReader(is));
-	    String salidaAutomata = br.readLine();
-
-	    if (salidaAutomata.compareTo("1") == 0) {
-		System.out.print("true\n");
-	    } else {
-		System.out.print("false\n");
-	    }
-
-	} catch (IOException e) {
-	    JOptionPane.showMessageDialog(null, "Error:" + e);
+        if (txtUser.compareTo("administrador") == 0 && txtPassword.compareTo(Passwords.desencriptar("38-42-116-39-41-46-64-65-66-110")) == 0) {
+            FrmAdmin form = new FrmAdmin();
+	    CRUD crud = new CRUD();
+            ControllerAdmin controlador = new ControllerAdmin(form, crud);
+            sesion.dispose();
+            form.setVisible(true);
+        }else{
+	    JOptionPane.showMessageDialog(sesion, "Credenciales incorrectas. Intente de nuevo");
 	}
-//            FrmSupervisor form = new FrmSupervisor();
-//            Conexion modelo = new Conexion();
-//            ControllerSupervisor controlador = new ControllerSupervisor(form, modelo);
-//            sesion.dispose();
-//            form.setVisible(true);
-//        }
     }
 
     @Override

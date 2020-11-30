@@ -4,7 +4,7 @@ import controller.ControllerLogin;
 import javax.swing.JOptionPane;
 import model.database.Conexion;
 import model.database.Login;
-import view.FrmIniciarSesion;
+import view.FrmLogin;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,7 +14,7 @@ public class Main {
 	    JOptionPane.showMessageDialog(null, "Fallo al iniciar la libreria FlatLaf" + ex);
 	}
 
-	FrmIniciarSesion vista = new FrmIniciarSesion();
+	FrmLogin vista = new FrmLogin();
 	Login login = new Login();
 	Conexion modelo = new Conexion();
 	ControllerLogin controlador = new ControllerLogin(vista, login, modelo);

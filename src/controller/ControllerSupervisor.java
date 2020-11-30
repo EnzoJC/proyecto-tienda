@@ -24,15 +24,6 @@ public class ControllerSupervisor implements ActionListener {
         vista.btnTemaClaro.addActionListener(this);
         vista.btnTemaOscuro.addActionListener(this);
     }
-
-//    public static void changeLaf(JFrame frame) {
-//        try {
-//             javax.swing.UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatLightLaf());
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//           JOptionPane.showMessageDialog(null, "Fallo al iniciar la libreria FlatLaf" + ex);
-//        }
-//        javax.swing.SwingUtilities.updateComponentTreeUI(frame);
-//    }
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -41,7 +32,7 @@ public class ControllerSupervisor implements ActionListener {
             PanelAgergarTrabajador panel = new PanelAgergarTrabajador();
             
             CRUD crud = new CRUD();
-            ControllerPanelAgregarCajero c = new ControllerPanelAgregarCajero(panel, crud);
+            ControllerPanelAgregarTrabajdor c = new ControllerPanelAgregarTrabajdor(panel, crud);
             
             vac.add(panel);
             vac.setSize(470, 650);

@@ -1,9 +1,10 @@
-
 package view;
 
 public class FrmAdmin extends javax.swing.JFrame {
     public FrmAdmin() {
         initComponents();
+	this.setLocationRelativeTo(null);
+	this.setResizable(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -32,9 +33,11 @@ public class FrmAdmin extends javax.swing.JFrame {
         jTextArea5 = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        lblSupervisor = new javax.swing.JLabel();
+        cboSupervisor = new javax.swing.JComboBox<>();
         jSeparator3 = new javax.swing.JSeparator();
         cboCargo = new javax.swing.JComboBox<>();
-        panelAgergarTrabajador1 = new view.PanelAgergarTrabajador();
+        panelAgergarTrabajador = new view.PanelAgergarTrabajador();
         jScrollPane6 = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
         btnCerrarSesion = new javax.swing.JButton();
@@ -138,14 +141,23 @@ public class FrmAdmin extends javax.swing.JFrame {
 
         jPanel4.setLayout(null);
 
+        lblSupervisor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblSupervisor.setText("Asignado a");
+        jPanel4.add(lblSupervisor);
+        lblSupervisor.setBounds(160, 580, 70, 26);
+
+        cboSupervisor.setToolTipText("");
+        jPanel4.add(cboSupervisor);
+        cboSupervisor.setBounds(240, 580, 200, 26);
+
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel4.add(jSeparator3);
         jSeparator3.setBounds(490, 30, 10, 610);
 
         jPanel4.add(cboCargo);
-        cboCargo.setBounds(110, 30, 130, 26);
-        jPanel4.add(panelAgergarTrabajador1);
-        panelAgergarTrabajador1.setBounds(10, 20, 450, 610);
+        cboCargo.setBounds(110, 30, 100, 26);
+        jPanel4.add(panelAgergarTrabajador);
+        panelAgergarTrabajador.setBounds(10, 20, 450, 610);
 
         tablaProductos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
@@ -192,7 +204,7 @@ public class FrmAdmin extends javax.swing.JFrame {
         getContentPane().add(btnTemaOscuro);
         btnTemaOscuro.setBounds(10, 100, 30, 30);
 
-        pack();
+        setBounds(0, 0, 1296, 759);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -204,6 +216,7 @@ public class FrmAdmin extends javax.swing.JFrame {
     public javax.swing.JButton btnTemaClaro;
     public javax.swing.JButton btnTemaOscuro;
     public javax.swing.JComboBox<String> cboCargo;
+    public javax.swing.JComboBox<String> cboSupervisor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -225,7 +238,8 @@ public class FrmAdmin extends javax.swing.JFrame {
     public javax.swing.JTextArea jTextArea3;
     public javax.swing.JTextArea jTextArea4;
     public javax.swing.JTextArea jTextArea5;
-    public view.PanelAgergarTrabajador panelAgergarTrabajador1;
+    public javax.swing.JLabel lblSupervisor;
+    public view.PanelAgergarTrabajador panelAgergarTrabajador;
     public javax.swing.JTable tablaProductos;
     // End of variables declaration//GEN-END:variables
 }
