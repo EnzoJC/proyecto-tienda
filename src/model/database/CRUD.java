@@ -32,7 +32,7 @@ public class CRUD extends Conexion {
         Connection conexion = getConexion();
         try {
             stmt = conexion.createStatement();
-            rs = stmt.executeQuery(query);
+            rs = conexion.createStatement().executeQuery(query);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error:\n" + ex);
         }

@@ -13,6 +13,30 @@ public class Fecha {
 	this.mes = mes;
 	this.anio = anio;
     }
+
+    public Dia getDia() {
+	return dia;
+    }
+
+    public void setDia(Dia dia) {
+	this.dia = dia;
+    }
+
+    public Mes getMes() {
+	return mes;
+    }
+
+    public void setMes(Mes mes) {
+	this.mes = mes;
+    }
+
+    public Anio getAnio() {
+	return anio;
+    }
+
+    public void setAnio(Anio anio) {
+	this.anio = anio;
+    }
     
     public boolean isBisiesto() {
 	String stringAnio = anio.toString();
@@ -81,5 +105,9 @@ public class Fecha {
 	}
 	return isCorrecto;
     }
-    
+
+    @Override
+    public String toString() {
+	return anio.getAnio() + "-" + mes.getMes() + "-" + dia.getDia();
+    }
 }

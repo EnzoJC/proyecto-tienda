@@ -15,7 +15,7 @@ public class Trabajador {
     private Date fechaNacimiento;
     private String Telefono;
     private Horario horario;
-    private String cargo;
+    private Cargo cargo;
     private String usuario;
     private String password;
     private Timestamp ultimaSesion;
@@ -23,11 +23,10 @@ public class Trabajador {
     public Trabajador() {
     }
 
-    public Trabajador(int idCajero, Trabajador idSupervisor, String nombres, String primerApellido, String segundoApellido, 
-			String dni, String correo, Date fechaNacimiento, String Telefono, Horario horario, String cargo, 
-								String usuario, String password, Timestamp ultimaSesion) {
+    public Trabajador(int idCajero, String nombres, String primerApellido, String segundoApellido, 
+			String dni, String correo, Date fechaNacimiento, String Telefono, Horario horario, Cargo cargo, 
+								String usuario, String password) {
 	this.idCajero = idCajero;
-	this.idSupervisor = idSupervisor;
 	this.nombres = nombres;
 	this.primerApellido = primerApellido;
 	this.segundoApellido = segundoApellido;
@@ -39,7 +38,6 @@ public class Trabajador {
 	this.cargo = cargo;
 	this.usuario = usuario;
 	this.password = password;
-	this.ultimaSesion = ultimaSesion;
     }
 
     public int getIdCajero() {
@@ -122,11 +120,11 @@ public class Trabajador {
 	this.horario = horario;
     }
 
-    public String getCargo() {
+    public Cargo getCargo() {
 	return cargo;
     }
 
-    public void setCargo(String cargo) {
+    public void setCargo(Cargo cargo) {
 	this.cargo = cargo;
     }
 
@@ -156,6 +154,6 @@ public class Trabajador {
     
     @Override
     public String toString() {
-        return "" + this.idCajero;
+        return "" + this.primerApellido + " - " + this.dni;
     }
 }

@@ -14,6 +14,22 @@ public class Mes {
         this.nombreMes = nombreMes;
     }
 
+    public int getMes() {
+	return mes;
+    }
+
+    public void setMes(int mes) {
+	this.mes = mes;
+    }
+
+    public String getNombreMes() {
+	return nombreMes;
+    }
+
+    public void setNombreMes(String nombreMes) {
+	this.nombreMes = nombreMes;
+    }
+    
     @Override
     public String toString() {
         return nombreMes;

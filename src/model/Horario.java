@@ -43,6 +43,6 @@ public class Horario {
 
     @Override
     public String toString() {
-        return "" + this.id;
+        return "De: " + horaEntrada.toString().substring(0, 5) + " a " + horaSalida.toString().substring(0, 5);
     }
 }

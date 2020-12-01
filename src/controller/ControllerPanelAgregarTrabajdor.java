@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,6 +16,7 @@ import model.Anio;
 import model.Trabajador;
 import model.Dia;
 import model.Dominio;
+import model.Fecha;
 import model.Horario;
 import model.Mes;
 import model.database.CRUD;
@@ -25,9 +27,10 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
 
     private PanelAgergarTrabajador vista;
     private CRUD consulta;
-    private Trabajador trabajdor;
+    private Trabajador trabajador;
     private Horario horario;
     private Statement stmt;
+    private Fecha fecha;
     private boolean isLlenito = false;
 
     public ControllerPanelAgregarTrabajdor() {
@@ -39,8 +42,11 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
 	this.vista.btnGenerarPassword.addActionListener(this);
 	this.vista.btnAgregarUsuario.addActionListener(this);
 	this.vista.txtDNI.addKeyListener(this);
+	this.vista.cboDia.addActionListener(this);
+	this.vista.txtTelefono.addKeyListener(this);
 
-	this.vista.cboDia.putClientProperty("JComponent.outline", "error");
+	//this.vista.cboDia.putClientProperty("JComponent.outline", "error");
+	//java.awt.Window window = SwingUtilities.windowForComponent(vista);
     }
 
     public DefaultComboBoxModel getListaDominios() {
@@ -88,18 +94,60 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
 	return arregloDCM;
     }
 
+    public DefaultComboBoxModel getListaHorarios() {
+	DefaultComboBoxModel DCM = new DefaultComboBoxModel();
+	ResultSet rs = consulta.select("SELECT * FROM HORARIOS");
+	try {
+	    while (rs.next()) {
+		DCM.addElement(new Horario(rs.getInt(1), rs.getTime(2), rs.getTime(3)));
+	    }
+	} catch (SQLException ex) {
+	    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	}
+	return DCM;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 	if (e.getSource() == vista.btnGenerarPassword) {
 	    vista.txtPassword.setText(Passwords.generar());
 	}
 	if (e.getSource() == vista.btnAgregarUsuario) {
-	    trabajdor.setNombres(vista.txtNombres.getText());
-	    trabajdor.setPrimerApellido(vista.txtPrimerApellido.getText());
-	    trabajdor.setSegundoApellido(vista.txtSegundoApellido.getText());
-	    trabajdor.setDni(vista.txtDNI.getText());
-	    trabajdor.setCorreo(vista.txtCorreo.getText() + vista.cboDominios.getSelectedItem());
+	    trabajador.setNombres(vista.txtNombres.getText());
+	    trabajador.setPrimerApellido(vista.txtPrimerApellido.getText());
+	    trabajador.setSegundoApellido(vista.txtSegundoApellido.getText());
+	    trabajador.setDni(vista.txtDNI.getText());
+	    trabajador.setCorreo(vista.txtCorreo.getText() + vista.cboDominios.getSelectedItem());
+	    boolean f = fecha.validarFecha(Integer.parseInt(fecha.getDia().toString()), Integer.parseInt(fecha.getDia().toString()), Integer.parseInt(fecha.getDia().toString()));
+	    if (f) {
+		trabajador.setFechaNacimiento(Date.valueOf(fecha.getAnio().toString() + fecha.getMes().toString() + fecha.getDia().toString()));
+	    } else {
+		JOptionPane.showMessageDialog(null, "Fecha incorrecta", "Advertencia", JOptionPane.WARNING_MESSAGE);
+	    }
+	    trabajador.setTelefono(vista.txtTelefono.getText());
+	    horario = (Horario) vista.cboHorarios.getSelectedItem();
+	    trabajador.setHorario(horario);
+	    trabajador.setUsuario(vista.txtDNI.getText());
+	    trabajador.setPassword(Passwords.encriptar(vista.txtPassword.getText()));
 	    
+	}
+	if (e.getSource() == vista.cboDia) {
+	    if (vista.cboDia.getSelectedIndex() != 0) {
+		fecha = new Fecha();
+		fecha.setDia((Dia) vista.cboDia.getSelectedItem());
+	    }
+	}
+	if (e.getSource() == vista.cboMes) {
+	    if (vista.cboMes.getSelectedIndex() != 0) {
+		fecha = new Fecha();
+		fecha.setMes((Mes) vista.cboMes.getSelectedItem());
+	    }
+	}
+	if (e.getSource() == vista.cboAnio) {
+	    if (vista.cboAnio.getSelectedIndex() != 0) {
+		fecha = new Fecha();
+		fecha.setAnio((Anio) vista.cboAnio.getSelectedItem());
+	    }
 	}
     }
 
@@ -117,6 +165,14 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
 		vista.txtDNI.putClientProperty("JComponent.outline", null);
 	    } else if (!isLlenito) {
 		vista.txtDNI.putClientProperty("JComponent.outline", "error");
+	    }
+	}
+	if (e.getSource() == vista.txtTelefono) {
+	    if ((e.getKeyChar() < '0' || e.getKeyChar() > '9')) {
+		e.consume();
+	    }
+	    if (vista.txtTelefono.getText().length() == 9) {
+		e.consume();
 	    }
 	}
     }

@@ -33,6 +33,7 @@ public class FrmAdmin extends javax.swing.JFrame {
         jTextArea5 = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        btnAgregar = new javax.swing.JButton();
         lblSupervisor = new javax.swing.JLabel();
         cboSupervisor = new javax.swing.JComboBox<>();
         jSeparator3 = new javax.swing.JSeparator();
@@ -141,6 +142,11 @@ public class FrmAdmin extends javax.swing.JFrame {
 
         jPanel4.setLayout(null);
 
+        btnAgregar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAgregar.setText("Agregar");
+        jPanel4.add(btnAgregar);
+        btnAgregar.setBounds(30, 580, 83, 26);
+
         lblSupervisor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblSupervisor.setText("Asignado a");
         jPanel4.add(lblSupervisor);
@@ -208,6 +214,7 @@ public class FrmAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btnAgregar;
     public javax.swing.JButton btnCerrarSesion;
     public javax.swing.JButton btnEjecutarDelete;
     public javax.swing.JButton btnEjecutarInsert;
