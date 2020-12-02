@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import model.Trabajador;
 import model.database.CRUD;
 import model.database.Conexion;
 import view.FrmSupervisor;
@@ -12,13 +13,15 @@ import view.PanelAgergarTrabajador;
 public class ControllerSupervisor implements ActionListener {
 
     private FrmSupervisor vista;
+    private Trabajador supervisor;
     private Conexion conexion;
 
     public ControllerSupervisor() {
     }
 
-    public ControllerSupervisor(FrmSupervisor vista, Conexion conexion) {
+    public ControllerSupervisor(FrmSupervisor vista, Trabajador supervisor, Conexion conexion) {
         this.vista = vista;
+	this.supervisor = supervisor;
         this.conexion = conexion;
         vista.btnAgregarCajero.addActionListener(this);
         vista.btnTemaClaro.addActionListener(this);

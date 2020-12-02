@@ -1,11 +1,23 @@
 package controller;
 
+import model.Trabajador;
 import model.database.Conexion;
-import model.database.Login;
 import view.FrmCajero;
 
 public class ControllerCajero {
+
     private FrmCajero caja;
-    private Login login;
+    private Trabajador cajero;
     private Conexion conexion;
+
+    public ControllerCajero() {
+    }
+
+    public ControllerCajero(FrmCajero caja, Trabajador cajero, Conexion conexion) {
+	this.caja = caja;
+	this.cajero = cajero;
+	this.conexion = conexion;
+    }
+    
+
 }

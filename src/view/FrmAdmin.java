@@ -12,26 +12,6 @@ public class FrmAdmin extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        btnEjecutarInsert = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
-        btnEjecutarSelect = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        btnEjecutarUpdate = new javax.swing.JButton();
-        btnEjecutarDelete = new javax.swing.JButton();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea5 = new javax.swing.JTextArea();
-        jLabel5 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnAgregar = new javax.swing.JButton();
         lblSupervisor = new javax.swing.JLabel();
@@ -41,6 +21,26 @@ public class FrmAdmin extends javax.swing.JFrame {
         panelAgergarTrabajador = new view.PanelAgergarTrabajador();
         jScrollPane6 = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        btnEjecutarInsert = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        areaSelect = new javax.swing.JTextArea();
+        jLabel2 = new javax.swing.JLabel();
+        btnEjecutarSelect = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        areaInsert = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        areaResults = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        areaDelete = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        btnEjecutarUpdate = new javax.swing.JButton();
+        btnEjecutarDelete = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        areaUpdate = new javax.swing.JTextArea();
+        jLabel5 = new javax.swing.JLabel();
         btnCerrarSesion = new javax.swing.JButton();
         btnTemaClaro = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
@@ -50,95 +50,6 @@ public class FrmAdmin extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
-        jPanel3.setLayout(null);
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Insert");
-        jPanel3.add(jLabel1);
-        jLabel1.setBounds(20, 20, 80, 30);
-
-        btnEjecutarInsert.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnEjecutarInsert.setText("Execute");
-        jPanel3.add(btnEjecutarInsert);
-        btnEjecutarInsert.setBounds(440, 190, 100, 30);
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jPanel3.add(jScrollPane1);
-        jScrollPane1.setBounds(630, 60, 550, 110);
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setText("Select");
-        jPanel3.add(jLabel2);
-        jLabel2.setBounds(630, 20, 110, 30);
-
-        btnEjecutarSelect.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnEjecutarSelect.setText("Execute");
-        jPanel3.add(btnEjecutarSelect);
-        btnEjecutarSelect.setBounds(1080, 190, 100, 30);
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
-
-        jPanel3.add(jScrollPane2);
-        jScrollPane2.setBounds(20, 60, 550, 110);
-
-        jTextArea3.setColumns(20);
-        jTextArea3.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        jTextArea3.setRows(5);
-        jScrollPane3.setViewportView(jTextArea3);
-
-        jPanel3.add(jScrollPane3);
-        jScrollPane3.setBounds(20, 460, 1160, 190);
-
-        jTextArea4.setColumns(20);
-        jTextArea4.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        jTextArea4.setRows(5);
-        jScrollPane4.setViewportView(jTextArea4);
-
-        jPanel3.add(jScrollPane4);
-        jScrollPane4.setBounds(630, 270, 550, 110);
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setText("Delete");
-        jPanel3.add(jLabel3);
-        jLabel3.setBounds(630, 230, 80, 30);
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel4.setText("Results");
-        jPanel3.add(jLabel4);
-        jLabel4.setBounds(20, 420, 80, 30);
-
-        btnEjecutarUpdate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnEjecutarUpdate.setText("Execute");
-        jPanel3.add(btnEjecutarUpdate);
-        btnEjecutarUpdate.setBounds(440, 400, 100, 30);
-
-        btnEjecutarDelete.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnEjecutarDelete.setText("Execute");
-        jPanel3.add(btnEjecutarDelete);
-        btnEjecutarDelete.setBounds(1080, 400, 100, 30);
-
-        jTextArea5.setColumns(20);
-        jTextArea5.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        jTextArea5.setRows(5);
-        jScrollPane5.setViewportView(jTextArea5);
-
-        jPanel3.add(jScrollPane5);
-        jScrollPane5.setBounds(20, 270, 550, 110);
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel5.setText("Update");
-        jPanel3.add(jLabel5);
-        jLabel5.setBounds(20, 230, 80, 30);
-
-        jTabbedPane1.addTab("Consutlas SQL", jPanel3);
 
         jPanel4.setLayout(null);
 
@@ -168,21 +79,13 @@ public class FrmAdmin extends javax.swing.JFrame {
         tablaProductos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
+
             }
         ));
+        tablaProductos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tablaProductos.setRowHeight(30);
         jScrollPane6.setViewportView(tablaProductos);
 
@@ -190,6 +93,95 @@ public class FrmAdmin extends javax.swing.JFrame {
         jScrollPane6.setBounds(530, 30, 650, 620);
 
         jTabbedPane1.addTab("Registrar trabajadores", jPanel4);
+
+        jPanel3.setLayout(null);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("Insert");
+        jPanel3.add(jLabel1);
+        jLabel1.setBounds(20, 20, 80, 30);
+
+        btnEjecutarInsert.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnEjecutarInsert.setText("Execute");
+        jPanel3.add(btnEjecutarInsert);
+        btnEjecutarInsert.setBounds(440, 190, 100, 30);
+
+        areaSelect.setColumns(20);
+        areaSelect.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        areaSelect.setRows(5);
+        jScrollPane1.setViewportView(areaSelect);
+
+        jPanel3.add(jScrollPane1);
+        jScrollPane1.setBounds(630, 60, 550, 110);
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setText("Select");
+        jPanel3.add(jLabel2);
+        jLabel2.setBounds(630, 20, 110, 30);
+
+        btnEjecutarSelect.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnEjecutarSelect.setText("Execute");
+        jPanel3.add(btnEjecutarSelect);
+        btnEjecutarSelect.setBounds(1080, 190, 100, 30);
+
+        areaInsert.setColumns(20);
+        areaInsert.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        areaInsert.setRows(5);
+        jScrollPane2.setViewportView(areaInsert);
+
+        jPanel3.add(jScrollPane2);
+        jScrollPane2.setBounds(20, 60, 550, 110);
+
+        areaResults.setColumns(20);
+        areaResults.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        areaResults.setRows(5);
+        jScrollPane3.setViewportView(areaResults);
+
+        jPanel3.add(jScrollPane3);
+        jScrollPane3.setBounds(20, 460, 1160, 190);
+
+        areaDelete.setColumns(20);
+        areaDelete.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        areaDelete.setRows(5);
+        jScrollPane4.setViewportView(areaDelete);
+
+        jPanel3.add(jScrollPane4);
+        jScrollPane4.setBounds(630, 270, 550, 110);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setText("Delete");
+        jPanel3.add(jLabel3);
+        jLabel3.setBounds(630, 230, 80, 30);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setText("Results");
+        jPanel3.add(jLabel4);
+        jLabel4.setBounds(20, 420, 80, 30);
+
+        btnEjecutarUpdate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnEjecutarUpdate.setText("Execute");
+        jPanel3.add(btnEjecutarUpdate);
+        btnEjecutarUpdate.setBounds(440, 400, 100, 30);
+
+        btnEjecutarDelete.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnEjecutarDelete.setText("Execute");
+        jPanel3.add(btnEjecutarDelete);
+        btnEjecutarDelete.setBounds(1080, 400, 100, 30);
+
+        areaUpdate.setColumns(20);
+        areaUpdate.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        areaUpdate.setRows(5);
+        jScrollPane5.setViewportView(areaUpdate);
+
+        jPanel3.add(jScrollPane5);
+        jScrollPane5.setBounds(20, 270, 550, 110);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setText("Update");
+        jPanel3.add(jLabel5);
+        jLabel5.setBounds(20, 230, 80, 30);
+
+        jTabbedPane1.addTab("Consutlas SQL", jPanel3);
 
         getContentPane().add(jTabbedPane1);
         jTabbedPane1.setBounds(60, 20, 1200, 700);
@@ -214,6 +206,11 @@ public class FrmAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JTextArea areaDelete;
+    public javax.swing.JTextArea areaInsert;
+    public javax.swing.JTextArea areaResults;
+    public javax.swing.JTextArea areaSelect;
+    public javax.swing.JTextArea areaUpdate;
     public javax.swing.JButton btnAgregar;
     public javax.swing.JButton btnCerrarSesion;
     public javax.swing.JButton btnEjecutarDelete;
@@ -240,11 +237,6 @@ public class FrmAdmin extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    public javax.swing.JTextArea jTextArea1;
-    public javax.swing.JTextArea jTextArea2;
-    public javax.swing.JTextArea jTextArea3;
-    public javax.swing.JTextArea jTextArea4;
-    public javax.swing.JTextArea jTextArea5;
     public javax.swing.JLabel lblSupervisor;
     public view.PanelAgergarTrabajador panelAgergarTrabajador;
     public javax.swing.JTable tablaProductos;

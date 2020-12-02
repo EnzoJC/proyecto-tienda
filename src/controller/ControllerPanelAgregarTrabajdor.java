@@ -58,6 +58,12 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
 	    }
 	} catch (SQLException ex) {
 	    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	} finally {
+	    try {
+		consulta.getConexion().close();
+	    } catch (SQLException ex) {
+		JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	    }
 	}
 	return DCM;
     }
@@ -103,6 +109,12 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
 	    }
 	} catch (SQLException ex) {
 	    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	} finally {
+	    try {
+		consulta.getConexion().close();
+	    } catch (SQLException ex) {
+		JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	    }
 	}
 	return DCM;
     }

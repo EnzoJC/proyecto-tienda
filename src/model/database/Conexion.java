@@ -12,14 +12,19 @@ public class Conexion {
     }
     
     public Connection getConexion() {
-	URL =   "jdbc:sqlserver://upn-shop-server.database.windows.net:1433;"
+	/*URL =   "jdbc:sqlserver://upn-shop-server.database.windows.net:1433;"
 		+ "database=shop-database;"
 		+ "user=administrador@upn-shop-server;"
 		+ "password=querty123_;"
 		+ "encrypt=true;"
 		+ "trustServerCertificate=false;"
 		+ "hostNameInCertificate=*.database.windows.net;"
-		+ "loginTimeout=30;";	
+		+ "loginTimeout=30;";*/
+	URL = "jdbc:sqlserver://192.168.100.46:1433;"
+		+ "databaseName=shop-system;"
+		+ "user=administrador;"
+		+ "password=querty123_;"
+		+ "loginTimeout=30;";
 	java.sql.Connection con = null;
 	try {
 	    con = java.sql.DriverManager.getConnection(URL);
@@ -30,7 +35,7 @@ public class Conexion {
 	}
         return con;  
     }
-    public void setConexion(String user, String password) {
+    /*public void setConexion(String user, String password) {
 	URL =   "jdbc:sqlserver://upn-shop-server.database.windows.net:1433;"
 		+ "database=shop-database;"
 		+ "user=" + user + "@upn-shop-server;"
@@ -49,5 +54,5 @@ public class Conexion {
 	} catch (java.sql.SQLException e) {
 	    JOptionPane.showMessageDialog(null, "Conexión fallida\n" + e);
 	}
-    }
+    }*/
 }

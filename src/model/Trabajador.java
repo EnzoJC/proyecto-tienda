@@ -24,8 +24,8 @@ public class Trabajador {
     }
 
     public Trabajador(int idCajero, String nombres, String primerApellido, String segundoApellido, 
-			String dni, String correo, Date fechaNacimiento, String Telefono, Horario horario, Cargo cargo, 
-								String usuario, String password) {
+	    String dni, String correo, Date fechaNacimiento, String Telefono, Horario horario, 
+	    Cargo cargo, String usuario, String password) {
 	this.idCajero = idCajero;
 	this.nombres = nombres;
 	this.primerApellido = primerApellido;
@@ -40,6 +40,25 @@ public class Trabajador {
 	this.password = password;
     }
 
+    public Trabajador(int idCajero, Trabajador idSupervisor, String nombres, String primerApellido, 
+	    String segundoApellido, String dni, String correo, Date fechaNacimiento, String Telefono, 
+	    Horario horario, Cargo cargo, String usuario, String password, Timestamp ultimaSesion) {
+	this.idCajero = idCajero;
+	this.idSupervisor = idSupervisor;
+	this.nombres = nombres;
+	this.primerApellido = primerApellido;
+	this.segundoApellido = segundoApellido;
+	this.dni = dni;
+	this.correo = correo;
+	this.fechaNacimiento = fechaNacimiento;
+	this.Telefono = Telefono;
+	this.horario = horario;
+	this.cargo = cargo;
+	this.usuario = usuario;
+	this.password = password;
+	this.ultimaSesion = ultimaSesion;
+    }
+    
     public int getIdCajero() {
 	return idCajero;
     }
@@ -154,6 +173,6 @@ public class Trabajador {
     
     @Override
     public String toString() {
-        return "" + this.primerApellido + " - " + this.dni;
+        return this.primerApellido + " - " + this.dni;
     }
 }

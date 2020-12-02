@@ -2,6 +2,7 @@ package main;
 
 import controller.ControllerLogin;
 import javax.swing.JOptionPane;
+import model.database.CRUD;
 import model.database.Conexion;
 import model.database.Login;
 import view.FrmLogin;
@@ -16,7 +17,7 @@ public class Main {
 
 	FrmLogin vista = new FrmLogin();
 	Login login = new Login();
-	Conexion modelo = new Conexion();
+	CRUD modelo = new CRUD();
 	ControllerLogin controlador = new ControllerLogin(vista, login, modelo);
 
 	java.awt.EventQueue.invokeLater(new Runnable() {

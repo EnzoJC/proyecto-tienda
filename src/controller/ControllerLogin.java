@@ -6,12 +6,22 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
+import model.Cargo;
+import model.Horario;
+import model.Trabajador;
 import model.database.CRUD;
 import model.database.Conexion;
 import model.database.Login;
 import others.Passwords;
 import view.FrmAdmin;
+import view.FrmCajero;
 import view.FrmLogin;
 import view.FrmSupervisor;
 
@@ -19,21 +29,24 @@ public class ControllerLogin implements ActionListener {
 
     private FrmLogin sesion;
     private Login login;
-    private Conexion conexion;
+    private CRUD consulta;
+    private Cargo cargo;
+    private Horario horario;
+    private Trabajador trabajador;
 
     public ControllerLogin() {
     }
 
-    public ControllerLogin(FrmLogin sesion, Login login, Conexion conexion) {
+    public ControllerLogin(FrmLogin sesion, Login login, CRUD consulta) {
 	this.sesion = sesion;
 	this.login = login;
-	this.conexion = conexion;
+	this.consulta = consulta;
 	sesion.btnLogin.addActionListener(this);
 	sesion.txtUser.addKeyListener(new KeyAdapter() {
 	    @Override
 	    public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == com.sun.glass.events.KeyEvent.VK_ENTER) {
-		    intentar();
+		    //intentar();
 		    nextForm(sesion.txtUser.getText(), new String(sesion.txtPassword.getPassword()));
 		}
 	    }
@@ -42,12 +55,13 @@ public class ControllerLogin implements ActionListener {
 	    @Override
 	    public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == com.sun.glass.events.KeyEvent.VK_ENTER) {
-		    intentar();
+		    //intentar();
 		    nextForm(sesion.txtUser.getText(), new String(sesion.txtPassword.getPassword()));
 		}
 	    }
 	});
 	sesion.chkMostrar.addItemListener(new ItemListener() {
+	    @Override
 	    public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() != ItemEvent.SELECTED) {
 		    sesion.txtPassword.setEchoChar('\u2022');
@@ -58,22 +72,108 @@ public class ControllerLogin implements ActionListener {
 	});
     }
 
-    public void intentar() {
-	login.setUser(sesion.txtUser.getText());
-	login.setPassword(new String(sesion.txtPassword.getPassword()));
-
-	conexion.setConexion(login.getUser(), login.getPassword());
-    }
-
+//    public void intentar() {
+//	login.setUser(sesion.txtUser.getText());
+//	login.setPassword(new String(sesion.txtPassword.getPassword()));
+//
+//	consulta..setConexion(login.getUser(), login.getPassword());
+//    }
     public void nextForm(String txtUser, String txtPassword) {
-        if (txtUser.compareTo("administrador") == 0 && txtPassword.compareTo(Passwords.desencriptar("38-42-116-39-41-46-64-65-66-110")) == 0) {
-            FrmAdmin form = new FrmAdmin();
+	if (txtUser.compareTo("administrador") == 0 && txtPassword.compareTo(Passwords.desencriptar("38-42-116-39-41-46-64-65-66-110")) == 0) {
+	    FrmAdmin form = new FrmAdmin();
 	    CRUD crud = new CRUD();
-            ControllerAdmin controlador = new ControllerAdmin(form, crud);
-            sesion.dispose();
-            form.setVisible(true);
-        }else{
-	    JOptionPane.showMessageDialog(sesion, "Credenciales incorrectas. Intente de nuevo");
+	    ControllerAdmin controlador = new ControllerAdmin(form, crud);
+	    sesion.dispose();
+	    form.setVisible(true);
+	} else {
+	    try {
+		CallableStatement cstmt = consulta.getConexion().prepareCall("{call buscarUsuario(?, ?, ?)}");
+		cstmt.setString("usuario", txtUser);
+		cstmt.setString("contrasenia", Passwords.encriptar(txtPassword));
+
+		cstmt.registerOutParameter(3, java.sql.Types.BIT);
+		cstmt.execute();
+		boolean isValido = cstmt.getBoolean(3);
+
+		if (isValido) {
+		    ResultSet rs = consulta.select("SELECT * FROM TRABAJADOR WHERE USUARIO ='" + txtUser + "'");
+		    try {
+			while (rs.next()) {
+			    int auxId = rs.getInt(1);
+			    try {
+				ResultSet rsHorario = consulta.select("SELECT * FROM HORARIOS WHERE id_horario =" + rs.getInt(10));
+				while (rsHorario.next()) {
+				    horario = new Horario(rsHorario.getInt(1), rsHorario.getTime(2), rsHorario.getTime(3));
+				}
+			    } catch (SQLException ex) {
+				JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+			    } finally {
+				try {
+				    consulta.getConexion().close();
+				} catch (SQLException ex) {
+				    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+				}
+			    }
+			    try {
+				ResultSet rsCargo = consulta.select("SELECT * FROM CARGOS WHERE id_cargo =" + rs.getInt(11));
+				while (rsCargo.next()) {
+				    cargo = new Cargo(rsCargo.getInt(1), rsCargo.getString(2));
+				}
+			    } catch (SQLException ex) {
+				JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+			    } finally {
+				try {
+				    consulta.getConexion().close();
+				} catch (SQLException ex) {
+				    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+				}
+			    }
+
+			    trabajador = new Trabajador(auxId, rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7),
+				    rs.getDate(8), rs.getString(9), horario, cargo, rs.getString(12), rs.getString(13));
+			}
+		    } catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+		    } finally {
+			try {
+			    consulta.getConexion().close();
+			} catch (SQLException ex) {
+			    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+			}
+		    }
+		    if (cargo.getCargo().compareToIgnoreCase("Cajero") == 0) {
+			LocalDateTime tiempoActual = LocalDateTime.now();
+			trabajador.setUltimaSesion(Timestamp.valueOf(tiempoActual));
+			consulta.update("UPDATE TRABAJADOR SET ultima_sesion ='" + trabajador.getUltimaSesion().toString() + "' WHERE ID_CAJERO = " + trabajador.getIdCajero());
+			consulta.getConexion().close();
+			FrmCajero f = new FrmCajero();
+			CRUD crud = new CRUD();
+			ControllerCajero controlador = new ControllerCajero(f, trabajador, crud);
+			sesion.dispose();
+			f.setVisible(true);
+		    } else if (cargo.getCargo().compareToIgnoreCase("Supervisor") == 0) {
+			LocalDateTime tiempoActual = LocalDateTime.now();
+			trabajador.setUltimaSesion(Timestamp.valueOf(tiempoActual));
+			consulta.update("UPDATE TRABAJADOR SET ultima_sesion ='" + trabajador.getUltimaSesion().toString() + "' WHERE ID_CAJERO = " + trabajador.getIdCajero());
+			consulta.getConexion().close();
+			FrmSupervisor f = new FrmSupervisor();
+			CRUD crud = new CRUD();
+			ControllerSupervisor controlador = new ControllerSupervisor(f, trabajador, crud);
+			sesion.dispose();
+			f.setVisible(true);
+		    }
+		} else {
+		    JOptionPane.showMessageDialog(sesion, "Credenciales incorrectas");
+		}
+	    } catch (SQLException ex) {
+		JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	    } finally {
+		try {
+		    consulta.getConexion().close();
+		} catch (SQLException ex) {
+		    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+		}
+	    }
 	}
     }
 

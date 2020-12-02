@@ -1,5 +1,6 @@
 package model.database;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,14 +12,12 @@ public class CRUD extends Conexion {
     Statement stmt = null;
     ResultSet rs = null;
 
-    public boolean insert(String query) {
+    public void insert(String query) {
         Connection conexion = getConexion();
         try {
-            int resultado = stmt.executeUpdate(query);
-            return resultado > 0;
+            stmt.executeUpdate(query);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-            return false;
+            JOptionPane.showMessageDialog(null, "Error en la inserción:\n" + ex);
         } finally {
             try {
                 conexion.close();
@@ -39,11 +38,10 @@ public class CRUD extends Conexion {
         return rs;
     }
 
-    public boolean update(String query) {
-        return false;
+    public void update(String query) {
+	this.insert(query);
     }
 
-    public boolean delete(String query) {
-        return false;
+    public void delete(String query) {
     }
 }
