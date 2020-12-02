@@ -5,6 +5,7 @@ public class FrmAdmin extends javax.swing.JFrame {
         initComponents();
 	this.setLocationRelativeTo(null);
 	this.setResizable(false);
+	this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
 
     @SuppressWarnings("unchecked")
@@ -20,7 +21,7 @@ public class FrmAdmin extends javax.swing.JFrame {
         cboCargo = new javax.swing.JComboBox<>();
         panelAgergarTrabajador = new view.PanelAgergarTrabajador();
         jScrollPane6 = new javax.swing.JScrollPane();
-        tablaProductos = new javax.swing.JTable();
+        tablaTrabajadores = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnEjecutarInsert = new javax.swing.JButton();
@@ -30,8 +31,6 @@ public class FrmAdmin extends javax.swing.JFrame {
         btnEjecutarSelect = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         areaInsert = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        areaResults = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
         areaDelete = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
@@ -41,6 +40,8 @@ public class FrmAdmin extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         areaUpdate = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tablaResultados = new javax.swing.JTable();
         btnCerrarSesion = new javax.swing.JButton();
         btnTemaClaro = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
@@ -76,8 +77,8 @@ public class FrmAdmin extends javax.swing.JFrame {
         jPanel4.add(panelAgergarTrabajador);
         panelAgergarTrabajador.setBounds(10, 20, 450, 610);
 
-        tablaProductos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
+        tablaTrabajadores.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tablaTrabajadores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -85,9 +86,9 @@ public class FrmAdmin extends javax.swing.JFrame {
 
             }
         ));
-        tablaProductos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        tablaProductos.setRowHeight(30);
-        jScrollPane6.setViewportView(tablaProductos);
+        tablaTrabajadores.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tablaTrabajadores.setRowHeight(30);
+        jScrollPane6.setViewportView(tablaTrabajadores);
 
         jPanel4.add(jScrollPane6);
         jScrollPane6.setBounds(530, 30, 650, 620);
@@ -107,7 +108,7 @@ public class FrmAdmin extends javax.swing.JFrame {
         btnEjecutarInsert.setBounds(440, 190, 100, 30);
 
         areaSelect.setColumns(20);
-        areaSelect.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        areaSelect.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         areaSelect.setRows(5);
         jScrollPane1.setViewportView(areaSelect);
 
@@ -125,23 +126,15 @@ public class FrmAdmin extends javax.swing.JFrame {
         btnEjecutarSelect.setBounds(1080, 190, 100, 30);
 
         areaInsert.setColumns(20);
-        areaInsert.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        areaInsert.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         areaInsert.setRows(5);
         jScrollPane2.setViewportView(areaInsert);
 
         jPanel3.add(jScrollPane2);
         jScrollPane2.setBounds(20, 60, 550, 110);
 
-        areaResults.setColumns(20);
-        areaResults.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        areaResults.setRows(5);
-        jScrollPane3.setViewportView(areaResults);
-
-        jPanel3.add(jScrollPane3);
-        jScrollPane3.setBounds(20, 460, 1160, 190);
-
         areaDelete.setColumns(20);
-        areaDelete.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        areaDelete.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         areaDelete.setRows(5);
         jScrollPane4.setViewportView(areaDelete);
 
@@ -169,7 +162,7 @@ public class FrmAdmin extends javax.swing.JFrame {
         btnEjecutarDelete.setBounds(1080, 400, 100, 30);
 
         areaUpdate.setColumns(20);
-        areaUpdate.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        areaUpdate.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         areaUpdate.setRows(5);
         jScrollPane5.setViewportView(areaUpdate);
 
@@ -181,10 +174,16 @@ public class FrmAdmin extends javax.swing.JFrame {
         jPanel3.add(jLabel5);
         jLabel5.setBounds(20, 230, 80, 30);
 
+        tablaResultados.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane7.setViewportView(tablaResultados);
+
+        jPanel3.add(jScrollPane7);
+        jScrollPane7.setBounds(20, 460, 1160, 180);
+
         jTabbedPane1.addTab("Consutlas SQL", jPanel3);
 
         getContentPane().add(jTabbedPane1);
-        jTabbedPane1.setBounds(60, 20, 1200, 700);
+        jTabbedPane1.setBounds(60, 10, 1200, 700);
 
         btnCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/encender_1.png"))); // NOI18N
         getContentPane().add(btnCerrarSesion);
@@ -208,7 +207,6 @@ public class FrmAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTextArea areaDelete;
     public javax.swing.JTextArea areaInsert;
-    public javax.swing.JTextArea areaResults;
     public javax.swing.JTextArea areaSelect;
     public javax.swing.JTextArea areaUpdate;
     public javax.swing.JButton btnAgregar;
@@ -230,15 +228,16 @@ public class FrmAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
     public javax.swing.JLabel lblSupervisor;
     public view.PanelAgergarTrabajador panelAgergarTrabajador;
-    public javax.swing.JTable tablaProductos;
+    public javax.swing.JTable tablaResultados;
+    public javax.swing.JTable tablaTrabajadores;
     // End of variables declaration//GEN-END:variables
 }

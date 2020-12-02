@@ -1,16 +1,17 @@
 package controller;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.CallableStatement;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Anio;
@@ -35,6 +36,7 @@ public class ControllerAdmin implements ActionListener {
     private Fecha fecha;
     private Cargo cargo;
     private DefaultTableModel DTM;
+    private DefaultTableModel DTMR;
 
     public ControllerAdmin() {
     }
@@ -44,12 +46,7 @@ public class ControllerAdmin implements ActionListener {
 	this.consulta = consulta;
 	this.vista.cboCargo.setModel(this.getListaCargos());
 	ControllerPanelAgregarTrabajdor c = new ControllerPanelAgregarTrabajdor(vista.panelAgergarTrabajador, consulta);
-
-	vista.panelAgergarTrabajador.cboDia.setModel(c.getListaFecha().get(2));
-	vista.panelAgergarTrabajador.cboMes.setModel(c.getListaFecha().get(1));
-	vista.panelAgergarTrabajador.cboAnio.setModel(c.getListaFecha().get(0));
-	vista.panelAgergarTrabajador.cboDominios.setModel(c.getListaDominios());
-	vista.panelAgergarTrabajador.cboHorarios.setModel(c.getListaHorarios());
+	
 	vista.panelAgergarTrabajador.btnAgregarUsuario.setVisible(false);
 
 	vista.cboCargo.setSelectedItem(null);
@@ -64,7 +61,16 @@ public class ControllerAdmin implements ActionListener {
 	vista.btnEjecutarSelect.addActionListener(this);
 	vista.btnEjecutarUpdate.addActionListener(this);
 	vista.btnEjecutarDelete.addActionListener(this);
-	vista.tablaProductos.setModel(this.getTablaTrabajadores());
+	vista.tablaTrabajadores.setModel(this.getTablaTrabajadores());
+	vista.addWindowListener(new WindowAdapter() {
+	    @Override
+	    public void windowClosing(WindowEvent we) {
+		int respuesta = JOptionPane.showConfirmDialog(vista, "¿Salir?", "Advertencia", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
+		if (respuesta == JOptionPane.YES_OPTION) {
+		    cerrarSesion();
+		}
+	    }
+	});
     }
 
     private DefaultComboBoxModel getListaCargos() {
@@ -92,39 +98,8 @@ public class ControllerAdmin implements ActionListener {
 	try {
 	    while (rs.next()) {
 		int auxId = rs.getInt(1);
-		try {
-		    ResultSet rsHorario = consulta.select("SELECT h.id_horario, h.hora_inicial, h.hora_salida "
-			    + "FROM HORARIOS h, TRABAJADOR t "
-			    + "WHERE t.id_horario = h.id_horario AND t.id_cajero =" + auxId);
-		    while (rsHorario.next()) {
-			horario = new Horario(rsHorario.getInt(1), rsHorario.getTime(2), rsHorario.getTime(3));
-		    }
-		} catch (SQLException ex) {
-		    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-		} finally {
-		    try {
-			consulta.getConexion().close();
-		    } catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-		    }
-		}
-
-		try {
-		    ResultSet rsCargo = consulta.select("SELECT c.id_cargo, c.cargo "
-			    + "FROM Cargos c, TRABAJADOR t "
-			    + "WHERE t.id_cargo = c.id_cargo AND t.id_cajero =" + auxId);
-		    while (rsCargo.next()) {
-			cargo = new Cargo(rsCargo.getInt(1), rsCargo.getString(2));
-		    }
-		} catch (SQLException ex) {
-		    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-		} finally {
-		    try {
-			consulta.getConexion().close();
-		    } catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-		    }
-		}
+		horario = getHorarioFromSQL(auxId);
+		cargo = getCargoFromSQL(auxId);
 
 		DCM.addElement(new Trabajador(auxId, rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7),
 			rs.getDate(8), rs.getString(9), horario, cargo, rs.getString(12), rs.getString(13)));
@@ -142,74 +117,26 @@ public class ControllerAdmin implements ActionListener {
     }
 
     public DefaultTableModel getTablaTrabajadores() {
-	DTM = new DefaultTableModel();
-	DTM.addColumn("ID");
-	DTM.addColumn("Supervisor");
-	DTM.addColumn("Nombres");
-	DTM.addColumn("Apellidos");
-	DTM.addColumn("DNI");
-	DTM.addColumn("Correo");
-	DTM.addColumn("Fecha Nac.");
-	DTM.addColumn("Teléfono");
-	DTM.addColumn("Horario");
-	DTM.addColumn("Cargo");
-	DTM.addColumn("Última sesión");
+	DTM = new DefaultTableModel() {
+	    @Override
+	    public boolean isCellEditable(int row, int column) {
+		return false;
+	    }
+	};
+	String[] headers = {"ID", "Nombres", "Apellidos", "Supervisor", "DNI", "Correo", "Fecha Nac.", "Teléfono", "Horario", "Cargo", "Última Sesión"};
+	for (String i : headers) {
+	    DTM.addColumn(i);
+	}
 
 	ResultSet rs = consulta.select("SELECT * FROM TRABAJADOR");
 	ArrayList<Trabajador> arrayTrabajadores = new ArrayList<>();
 	try {
 	    while (rs.next()) {
 		int auxId = rs.getInt(1);
-		try {
-		    ResultSet rsHorario = consulta.select("SELECT h.id_horario, h.hora_inicial, h.hora_salida "
-			    + "FROM HORARIOS h, TRABAJADOR t "
-			    + "WHERE t.id_horario = h.id_horario AND t.id_cajero =" + auxId);
-		    while (rsHorario.next()) {
-			horario = new Horario(rsHorario.getInt(1), rsHorario.getTime(2), rsHorario.getTime(3));
-		    }
-		} catch (SQLException ex) {
-		    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-		} finally {
-		    try {
-			consulta.getConexion().close();
-		    } catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-		    }
-		}
+		horario = getHorarioFromSQL(auxId);
+		cargo = getCargoFromSQL(auxId);
+		Trabajador sup = getSupToCajFromSQL(rs.getInt(2));
 
-		try {
-		    ResultSet rsCargo = consulta.select("SELECT c.id_cargo, c.cargo "
-			    + "FROM Cargos c, TRABAJADOR t "
-			    + "WHERE t.id_cargo = c.id_cargo AND t.id_cajero =" + auxId);
-		    while (rsCargo.next()) {
-			cargo = new Cargo(rsCargo.getInt(1), rsCargo.getString(2));
-		    }
-		} catch (SQLException ex) {
-		    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-		} finally {
-		    try {
-			consulta.getConexion().close();
-		    } catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-		    }
-		}
-
-		Trabajador sup = null;
-		try {
-		    ResultSet rsSup = consulta.select("SELECT * FROM TRABAJADOR WHERE ID_CAJERO=" + rs.getInt(2));
-		    while (rsSup.next()) {
-			sup = new Trabajador(auxId, rsSup.getString(3), rsSup.getString(4), rsSup.getString(5), rsSup.getString(6), rsSup.getString(7),
-				rsSup.getDate(8), rsSup.getString(9), horario, cargo, rsSup.getString(12), rsSup.getString(13));
-		    }
-		} catch (SQLException ex) {
-		    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-		} finally {
-		    try {
-			consulta.getConexion().close();
-		    } catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-		    }
-		}
 		arrayTrabajadores.add(new Trabajador(auxId, sup, rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7),
 			rs.getDate(8), rs.getString(9), horario, cargo, rs.getString(12), rs.getString(13), rs.getTimestamp(14)));
 	    }
@@ -227,9 +154,9 @@ public class ControllerAdmin implements ActionListener {
 	    String[] datosTrabajador = new String[11];
 
 	    datosTrabajador[0] = Integer.toString(arrayTrabajadores.get(i).getIdCajero());
-	    datosTrabajador[1] = arrayTrabajadores.get(i).getIdSupervisor() == null ? "No tiene" : "" + arrayTrabajadores.get(i).getIdSupervisor();
-	    datosTrabajador[2] = arrayTrabajadores.get(i).getNombres();
-	    datosTrabajador[3] = arrayTrabajadores.get(i).getPrimerApellido() + " " + arrayTrabajadores.get(i).getSegundoApellido();
+	    datosTrabajador[1] = arrayTrabajadores.get(i).getNombres();
+	    datosTrabajador[2] = arrayTrabajadores.get(i).getPrimerApellido() + " " + arrayTrabajadores.get(i).getSegundoApellido();
+	    datosTrabajador[3] = arrayTrabajadores.get(i).getIdSupervisor() == null ? "No tiene" : "" + arrayTrabajadores.get(i).getIdSupervisor();
 	    datosTrabajador[4] = arrayTrabajadores.get(i).getDni();
 	    datosTrabajador[5] = arrayTrabajadores.get(i).getCorreo();
 	    datosTrabajador[6] = arrayTrabajadores.get(i).getFechaNacimiento().toString();
@@ -241,6 +168,68 @@ public class ControllerAdmin implements ActionListener {
 	}
 
 	return DTM;
+    }
+
+    public Horario getHorarioFromSQL(int idCajero) {
+	Horario auxHorario = null;
+	try {
+	    ResultSet rsHorario = consulta.select("SELECT h.id_horario, h.hora_inicial, h.hora_salida "
+		    + "FROM HORARIOS h, TRABAJADOR t "
+		    + "WHERE t.id_horario = h.id_horario AND t.id_cajero =" + idCajero);
+	    while (rsHorario.next()) {
+		auxHorario = new Horario(rsHorario.getInt(1), rsHorario.getTime(2), rsHorario.getTime(3));
+	    }
+	} catch (SQLException ex) {
+	    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	} finally {
+	    try {
+		consulta.getConexion().close();
+	    } catch (SQLException ex) {
+		JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	    }
+	}
+	return auxHorario;
+    }
+
+    public Cargo getCargoFromSQL(int idCajero) {
+	Cargo auxCargo = null;
+	try {
+	    ResultSet rsCargo = consulta.select("SELECT c.id_cargo, c.cargo "
+		    + "FROM Cargos c, TRABAJADOR t "
+		    + "WHERE t.id_cargo = c.id_cargo AND t.id_cajero =" + idCajero);
+	    while (rsCargo.next()) {
+		auxCargo = new Cargo(rsCargo.getInt(1), rsCargo.getString(2));
+	    }
+	} catch (SQLException ex) {
+	    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	} finally {
+	    try {
+		consulta.getConexion().close();
+	    } catch (SQLException ex) {
+		JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	    }
+	}
+	return auxCargo;
+    }
+
+    public Trabajador getSupToCajFromSQL(int idSupervisor) {
+	Trabajador supervisor = null;
+	try {
+	    ResultSet rsSup = consulta.select("SELECT * FROM TRABAJADOR WHERE ID_CAJERO=" + idSupervisor);
+	    while (rsSup.next()) {
+		supervisor = new Trabajador(rsSup.getInt(1), rsSup.getString(3), rsSup.getString(4), rsSup.getString(5), rsSup.getString(6), rsSup.getString(7),
+			rsSup.getDate(8), rsSup.getString(9), getHorarioFromSQL(idSupervisor), getCargoFromSQL(idSupervisor), rsSup.getString(12), rsSup.getString(13));
+	    }
+	} catch (SQLException ex) {
+	    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	} finally {
+	    try {
+		consulta.getConexion().close();
+	    } catch (SQLException ex) {
+		JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	    }
+	}
+	return supervisor;
     }
 
     public void limpiarControles() {
@@ -262,6 +251,52 @@ public class ControllerAdmin implements ActionListener {
 	}
     }
 
+    public void cerrarSesion() {
+	vista.dispose();
+	Login login = new Login();
+	FrmLogin f = new FrmLogin();
+	ControllerLogin controlador = new ControllerLogin(f, login, consulta);
+
+	f.setVisible(true);
+    }
+
+    public void temaClaro() {
+	try {
+	    javax.swing.UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatLightLaf());
+	    javax.swing.SwingUtilities.updateComponentTreeUI(vista);
+	} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+	    JOptionPane.showMessageDialog(null, "Fallo al iniciar la libreria FlatLaf" + ex);
+	}
+    }
+
+    public void temaOscuro() {
+	try {
+	    javax.swing.UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarkLaf());
+	    javax.swing.SwingUtilities.updateComponentTreeUI(vista);
+	} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+	    JOptionPane.showMessageDialog(null, "Fallo al iniciar la libreria FlatLaf" + ex);
+	}
+    }
+
+    public boolean isRegistrado() {
+	try {
+	    CallableStatement cstmt = consulta.getConexion().prepareCall("{call isUnico(?, ?)}");
+	    cstmt.setString("dni", vista.panelAgergarTrabajador.txtDNI.getText());
+	    cstmt.registerOutParameter(2, java.sql.Types.BIT);
+	    cstmt.execute();
+	    return cstmt.getBoolean(2);
+	} catch (SQLException ex) {
+	    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	} finally {
+	    try {
+		consulta.getConexion().close();
+	    } catch (SQLException ex) {
+		JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	    }
+	}
+	return false;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 	if (e.getSource() == vista.cboCargo) {
@@ -280,24 +315,8 @@ public class ControllerAdmin implements ActionListener {
 	    trabajador.setNombres(vista.panelAgergarTrabajador.txtNombres.getText());
 	    trabajador.setPrimerApellido(vista.panelAgergarTrabajador.txtPrimerApellido.getText());
 	    trabajador.setSegundoApellido(vista.panelAgergarTrabajador.txtSegundoApellido.getText());
-	    boolean isValido = false;
 
-	    try {
-		CallableStatement cstmt = consulta.getConexion().prepareCall("{call isUnico(?, ?)}");
-		cstmt.setString("dni", vista.panelAgergarTrabajador.txtDNI.getText());
-		cstmt.registerOutParameter(2, java.sql.Types.BIT);
-		cstmt.execute();
-		isValido = cstmt.getBoolean(2);
-	    } catch (SQLException ex) {
-		JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-	    } finally {
-		try {
-		    consulta.getConexion().close();
-		} catch (SQLException ex) {
-		    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-		}
-	    }
-
+	    boolean isValido = isRegistrado();
 	    if (isValido && vista.panelAgergarTrabajador.txtDNI.getText().length() == 8) {
 		trabajador.setDni(vista.panelAgergarTrabajador.txtDNI.getText());
 	    } else {
@@ -308,20 +327,19 @@ public class ControllerAdmin implements ActionListener {
 
 	    fecha = new Fecha();
 	    fecha.setDia((Dia) vista.panelAgergarTrabajador.cboDia.getSelectedItem());
-	    Mes auxMes = (Mes) vista.panelAgergarTrabajador.cboMes.getSelectedItem();
+	    fecha.setMes((Mes) vista.panelAgergarTrabajador.cboMes.getSelectedItem());
 	    fecha.setAnio((Anio) vista.panelAgergarTrabajador.cboAnio.getSelectedItem());
 
-	    boolean f = fecha.validarFecha(Integer.parseInt(fecha.getDia().toString()), auxMes.getMes(), Integer.parseInt(fecha.getAnio().toString()));
+	    boolean f = fecha.validarFecha(Integer.parseInt(fecha.getDia().toString()), fecha.getMes().getMes(), fecha.getAnio().getAnio());
 
 	    if (f) {
-		trabajador.setFechaNacimiento(Date.valueOf(fecha.getAnio().toString() + "-" + auxMes.getMes() + "-" + fecha.getDia().toString()));
+		trabajador.setFechaNacimiento(Date.valueOf(fecha.getAnio().toString() + "-" + fecha.getMes().getMes() + "-" + fecha.getDia().toString()));
 	    } else {
 		JOptionPane.showMessageDialog(null, "Fecha incorrecta", "Advertencia", JOptionPane.WARNING_MESSAGE);
 	    }
 
 	    trabajador.setTelefono(vista.panelAgergarTrabajador.txtTelefono.getText());
-	    horario = (Horario) vista.panelAgergarTrabajador.cboHorarios.getSelectedItem();
-	    trabajador.setHorario(horario);
+	    trabajador.setHorario((Horario) vista.panelAgergarTrabajador.cboHorarios.getSelectedItem());
 	    trabajador.setUsuario(vista.panelAgergarTrabajador.txtDNI.getText());
 	    trabajador.setPassword(Passwords.encriptar(vista.panelAgergarTrabajador.txtPassword.getText()));
 	    trabajador.setCargo((Cargo) vista.cboCargo.getSelectedItem());
@@ -364,35 +382,76 @@ public class ControllerAdmin implements ActionListener {
 		JOptionPane.showMessageDialog(null, "Registro correcto", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 	    }
 	    limpiarControles();
-	    limpiarTablas(vista.tablaProductos, DTM);
-	    vista.tablaProductos.setModel(this.getTablaTrabajadores());
+	    limpiarTablas(vista.tablaTrabajadores, DTM);
+	    vista.tablaTrabajadores.setModel(this.getTablaTrabajadores());
 	}
 
 	if (e.getSource() == vista.btnCerrarSesion) {
-	    vista.dispose();
-	    Login login = new Login();
-	    FrmLogin f = new FrmLogin();
-	    ControllerLogin controlador = new ControllerLogin(f, login, consulta);
-
-	    f.setVisible(true);
+	    cerrarSesion();
 	}
 
 	if (e.getSource() == vista.btnTemaClaro) {
-	    try {
-		javax.swing.UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatLightLaf());
-		javax.swing.SwingUtilities.updateComponentTreeUI(vista);
-	    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-		JOptionPane.showMessageDialog(null, "Fallo al iniciar la libreria FlatLaf" + ex);
-	    }
+	    temaClaro();
 	}
 
 	if (e.getSource() == vista.btnTemaOscuro) {
+	    temaOscuro();
+	}
+	if (e.getSource() == vista.btnEjecutarInsert) {
+	    this.limpiarTablas(vista.tablaResultados, DTMR);
+	    if (consulta.insert(vista.areaInsert.getText()))
+		JOptionPane.showMessageDialog(vista, "Ejecución correcta", "Mensaje", JOptionPane.WARNING_MESSAGE);
+	    else 
+		JOptionPane.showMessageDialog(vista, "Ejecución incorrecta", "Mensaje", JOptionPane.WARNING_MESSAGE);
+	}
+	if (e.getSource() == vista.btnEjecutarSelect) {
+	    this.limpiarTablas(vista.tablaResultados, DTMR);
+	    ResultSet rs = consulta.select(vista.areaSelect.getText());
+	    DTMR = new DefaultTableModel() {
+		@Override
+		public boolean isCellEditable(int row, int column) {
+		    return false;
+		}
+	    };
 	    try {
-		javax.swing.UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarkLaf());
-		javax.swing.SwingUtilities.updateComponentTreeUI(vista);
-	    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-		JOptionPane.showMessageDialog(null, "Fallo al iniciar la libreria FlatLaf" + ex);
+		ResultSetMetaData rsmd = rs.getMetaData();
+		int columnsNumber = rsmd.getColumnCount();
+		String[] valores = new String[columnsNumber];
+		for (int i = 1; i <= columnsNumber; i++) {
+		    DTMR.addColumn(rsmd.getColumnName(i));
+		}
+		while (rs.next()) {
+		    for (int i = 1; i <= columnsNumber; i++) {
+			String columnValue = rs.getString(i);
+			valores[i - 1] = columnValue;
+		    }
+		    DTMR.addRow(valores);
+		}
+		vista.tablaResultados.setModel(DTMR);
+	    } catch (SQLException ex) {
+		JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	    } finally {
+		try {
+		    consulta.getConexion().close();
+		} catch (SQLException ex) {
+		    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+		}
 	    }
+
+	}
+	if (e.getSource() == vista.btnEjecutarUpdate) {
+	    this.limpiarTablas(vista.tablaResultados, DTMR);
+	    if (consulta.update(vista.areaUpdate.getText()))
+		JOptionPane.showMessageDialog(vista, "Ejecución correcta", "Mensaje", JOptionPane.WARNING_MESSAGE);
+	    else 
+		JOptionPane.showMessageDialog(vista, "Ejecución incorrecta", "Mensaje", JOptionPane.WARNING_MESSAGE);
+	}
+	if (e.getSource() == vista.btnEjecutarDelete) {
+	    this.limpiarTablas(vista.tablaResultados, DTMR);
+	    if (consulta.delete(vista.areaDelete.getText()))
+		JOptionPane.showMessageDialog(vista, "Ejecución correcta", "Mensaje", JOptionPane.WARNING_MESSAGE);
+	    else 
+		JOptionPane.showMessageDialog(vista, "Ejecución incorrecta", "Mensaje", JOptionPane.WARNING_MESSAGE);
 	}
     }
 }

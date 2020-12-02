@@ -44,6 +44,11 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
 	this.vista.txtDNI.addKeyListener(this);
 	this.vista.cboDia.addActionListener(this);
 	this.vista.txtTelefono.addKeyListener(this);
+	this.vista.cboDia.setModel(this.getListaFecha().get(2));
+	this.vista.cboMes.setModel(this.getListaFecha().get(1));
+	this.vista.cboAnio.setModel(this.getListaFecha().get(0));
+	this.vista.cboDominios.setModel(this.getListaDominios());
+	this.vista.cboHorarios.setModel(this.getListaHorarios());
 
 	//this.vista.cboDia.putClientProperty("JComponent.outline", "error");
 	//java.awt.Window window = SwingUtilities.windowForComponent(vista);

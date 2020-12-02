@@ -78,6 +78,48 @@ public class ControllerLogin implements ActionListener {
 //
 //	consulta..setConexion(login.getUser(), login.getPassword());
 //    }
+    public Horario getHorarioFromSQL(int idCajero) {
+	Horario auxHorario = null;
+	try {
+	    ResultSet rsHorario = consulta.select("SELECT h.id_horario, h.hora_inicial, h.hora_salida "
+		    + "FROM HORARIOS h, TRABAJADOR t "
+		    + "WHERE t.id_horario = h.id_horario AND t.id_cajero =" + idCajero);
+	    while (rsHorario.next()) {
+		auxHorario = new Horario(rsHorario.getInt(1), rsHorario.getTime(2), rsHorario.getTime(3));
+	    }
+	} catch (SQLException ex) {
+	    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	} finally {
+	    try {
+		consulta.getConexion().close();
+	    } catch (SQLException ex) {
+		JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	    }
+	}
+	return auxHorario;
+    }
+
+    public Cargo getCargoFromSQL(int idCajero) {
+	Cargo auxCargo = null;
+	try {
+	    ResultSet rsCargo = consulta.select("SELECT c.id_cargo, c.cargo "
+		    + "FROM Cargos c, TRABAJADOR t "
+		    + "WHERE t.id_cargo = c.id_cargo AND t.id_cajero =" + idCajero);
+	    while (rsCargo.next()) {
+		auxCargo = new Cargo(rsCargo.getInt(1), rsCargo.getString(2));
+	    }
+	} catch (SQLException ex) {
+	    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	} finally {
+	    try {
+		consulta.getConexion().close();
+	    } catch (SQLException ex) {
+		JOptionPane.showMessageDialog(null, "Error:\n" + ex);
+	    }
+	}
+	return auxCargo;
+    }
+
     public void nextForm(String txtUser, String txtPassword) {
 	if (txtUser.compareTo("administrador") == 0 && txtPassword.compareTo(Passwords.desencriptar("38-42-116-39-41-46-64-65-66-110")) == 0) {
 	    FrmAdmin form = new FrmAdmin();
@@ -100,35 +142,9 @@ public class ControllerLogin implements ActionListener {
 		    try {
 			while (rs.next()) {
 			    int auxId = rs.getInt(1);
-			    try {
-				ResultSet rsHorario = consulta.select("SELECT * FROM HORARIOS WHERE id_horario =" + rs.getInt(10));
-				while (rsHorario.next()) {
-				    horario = new Horario(rsHorario.getInt(1), rsHorario.getTime(2), rsHorario.getTime(3));
-				}
-			    } catch (SQLException ex) {
-				JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-			    } finally {
-				try {
-				    consulta.getConexion().close();
-				} catch (SQLException ex) {
-				    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-				}
-			    }
-			    try {
-				ResultSet rsCargo = consulta.select("SELECT * FROM CARGOS WHERE id_cargo =" + rs.getInt(11));
-				while (rsCargo.next()) {
-				    cargo = new Cargo(rsCargo.getInt(1), rsCargo.getString(2));
-				}
-			    } catch (SQLException ex) {
-				JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-			    } finally {
-				try {
-				    consulta.getConexion().close();
-				} catch (SQLException ex) {
-				    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
-				}
-			    }
-
+			    horario = getHorarioFromSQL(auxId);
+			    cargo = getCargoFromSQL(auxId);
+			    
 			    trabajador = new Trabajador(auxId, rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7),
 				    rs.getDate(8), rs.getString(9), horario, cargo, rs.getString(12), rs.getString(13));
 			}
@@ -141,11 +157,11 @@ public class ControllerLogin implements ActionListener {
 			    JOptionPane.showMessageDialog(null, "Error:\n" + ex);
 			}
 		    }
+		    
 		    if (cargo.getCargo().compareToIgnoreCase("Cajero") == 0) {
 			LocalDateTime tiempoActual = LocalDateTime.now();
 			trabajador.setUltimaSesion(Timestamp.valueOf(tiempoActual));
 			consulta.update("UPDATE TRABAJADOR SET ultima_sesion ='" + trabajador.getUltimaSesion().toString() + "' WHERE ID_CAJERO = " + trabajador.getIdCajero());
-			consulta.getConexion().close();
 			FrmCajero f = new FrmCajero();
 			CRUD crud = new CRUD();
 			ControllerCajero controlador = new ControllerCajero(f, trabajador, crud);
@@ -155,7 +171,6 @@ public class ControllerLogin implements ActionListener {
 			LocalDateTime tiempoActual = LocalDateTime.now();
 			trabajador.setUltimaSesion(Timestamp.valueOf(tiempoActual));
 			consulta.update("UPDATE TRABAJADOR SET ultima_sesion ='" + trabajador.getUltimaSesion().toString() + "' WHERE ID_CAJERO = " + trabajador.getIdCajero());
-			consulta.getConexion().close();
 			FrmSupervisor f = new FrmSupervisor();
 			CRUD crud = new CRUD();
 			ControllerSupervisor controlador = new ControllerSupervisor(f, trabajador, crud);

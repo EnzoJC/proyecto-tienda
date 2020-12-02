@@ -10,6 +10,7 @@ public class FrmSupervisor extends javax.swing.JFrame {
         btnTemaClaro.setToolTipText("Cambiar a tema claro");
         btnTemaOscuro.setToolTipText("Cambiar a tema oscuro");
         btnAgregarCajero.setToolTipText("Agregar nuevo cajero");
+	this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
     
     @SuppressWarnings("unchecked")
@@ -29,7 +30,6 @@ public class FrmSupervisor extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         txtStock = new javax.swing.JTextField();
@@ -56,6 +56,9 @@ public class FrmSupervisor extends javax.swing.JFrame {
         btnAgregarProducto = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
         txtNombreProveedor = new javax.swing.JTextField();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tablaProductos = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -122,9 +125,6 @@ public class FrmSupervisor extends javax.swing.JFrame {
         jButton1.setBounds(10, 630, 90, 26);
 
         jTabbedPane1.addTab("Kardex", jPanel3);
-
-        jPanel4.setLayout(null);
-        jTabbedPane1.addTab("Cajas", jPanel4);
 
         jPanel1.setLayout(null);
 
@@ -236,7 +236,26 @@ public class FrmSupervisor extends javax.swing.JFrame {
         jPanel1.add(txtNombreProveedor);
         txtNombreProveedor.setBounds(170, 570, 260, 26);
 
+        tablaProductos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tablaProductos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tablaProductos.setRowHeight(30);
+        jScrollPane6.setViewportView(tablaProductos);
+
+        jPanel1.add(jScrollPane6);
+        jScrollPane6.setBounds(530, 30, 650, 620);
+
         jTabbedPane1.addTab("Registro de Productos", jPanel1);
+
+        jPanel4.setLayout(null);
+        jTabbedPane1.addTab("Cajas", jPanel4);
 
         getContentPane().add(jTabbedPane1);
         jTabbedPane1.setBounds(60, 10, 1200, 700);
@@ -276,9 +295,11 @@ public class FrmSupervisor extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    public javax.swing.JTable tablaProductos;
     public javax.swing.JTextField txtCodigo;
     public javax.swing.JTextField txtNombre1;
     public javax.swing.JTextField txtNombreProveedor;
