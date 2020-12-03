@@ -16,9 +16,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="btnAgregarProveedor" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel8" min="-2" pref="150" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jLabel5" min="-2" pref="140" max="-2" attributes="0"/>
@@ -35,7 +36,6 @@
                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                       <Component id="txtCorreo" min="-2" pref="260" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="btnAgregarProveedor" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jLabel21" min="-2" pref="140" max="-2" attributes="0"/>
                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
@@ -71,9 +71,9 @@
                   <Component id="jLabel21" min="-2" pref="26" max="-2" attributes="0"/>
                   <Component id="txtTelefono" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
+              <EmptySpace pref="29" max="32767" attributes="0"/>
               <Component id="btnAgregarProveedor" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

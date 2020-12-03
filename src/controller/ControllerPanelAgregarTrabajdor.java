@@ -4,6 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +37,8 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
     private Statement stmt;
     private Fecha fecha;
     private boolean isLlenito = false;
-
+    private String acumDni = "";
+    
     public ControllerPanelAgregarTrabajdor() {
     }
 
@@ -127,7 +133,28 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
     @Override
     public void actionPerformed(ActionEvent e) {
 	if (e.getSource() == vista.btnGenerarPassword) {
-	    vista.txtPassword.setText(Passwords.generar());
+	   // vista.txtPassword.setText(Passwords.generar());
+	    String pass = vista.txtPassword.getText();
+	     
+	    String ruta = System.getProperty("user.dir");
+	    String salidaTxt = "";
+	    System.out.println(salidaTxt);
+	    try {
+		try (FileWriter archivo = new FileWriter(ruta + "/src/others/cadena.txt", true)) {
+		    archivo.write(pass);
+		}
+		Process p = Runtime.getRuntime().exec(ruta + "/src/others/automata.exe ");
+		InputStream is = p.getInputStream();
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		String salidaAutomata = br.readLine();
+
+		if (salidaAutomata.compareTo("0") == 0) {
+		    JOptionPane.showMessageDialog(null, "Contraseña no valida", "Advertencia", JOptionPane.WARNING_MESSAGE);
+		}
+
+	    } catch (IOException ex) {
+		JOptionPane.showMessageDialog(null, "Error:" + ex);
+	    }
 	}
 	if (e.getSource() == vista.btnAgregarUsuario) {
 	    trabajador.setNombres(vista.txtNombres.getText());
@@ -146,7 +173,7 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
 	    trabajador.setHorario(horario);
 	    trabajador.setUsuario(vista.txtDNI.getText());
 	    trabajador.setPassword(Passwords.encriptar(vista.txtPassword.getText()));
-	    
+	    acumDni = "";
 	}
 	if (e.getSource() == vista.cboDia) {
 	    if (vista.cboDia.getSelectedIndex() != 0) {
@@ -180,6 +207,7 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
 	    if (vista.txtDNI.getText().length() == 7 && e.getKeyChar() != com.sun.glass.events.KeyEvent.VK_BACKSPACE) {
 		isLlenito = true;
 		vista.txtDNI.putClientProperty("JComponent.outline", null);
+		vista.txtUsuario.setText(vista.txtDNI.getText() + Character.toString(e.getKeyChar()));
 	    } else if (!isLlenito) {
 		vista.txtDNI.putClientProperty("JComponent.outline", "error");
 	    }
@@ -198,6 +226,7 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
     public void keyPressed(KeyEvent e) {
 	if (e.getSource() == vista.txtDNI) {
 	    if (vista.txtDNI.getText().length() == 8 && e.getKeyChar() == com.sun.glass.events.KeyEvent.VK_BACKSPACE) {
+		vista.txtUsuario.setText("");
 		vista.txtDNI.putClientProperty("JComponent.outline", "error");
 		isLlenito = false;
 	    }

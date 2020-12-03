@@ -32,10 +32,10 @@ public class FrmSupervisor extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        txtStock = new javax.swing.JTextField();
+        txtBuscarProveedor = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        txtPrecioVenta = new javax.swing.JTextField();
+        txtPrecioCompra = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -49,16 +49,24 @@ public class FrmSupervisor extends javax.swing.JFrame {
         cboTalla = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        txtStock1 = new javax.swing.JTextField();
+        txtCantidad = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        txtNombre1 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        txtNombre = new javax.swing.JTextField();
+        btnBuscarProveedor = new javax.swing.JButton();
         btnAgregarProducto = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
         txtNombreProveedor = new javax.swing.JTextField();
         jScrollPane6 = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
-        jPanel4 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        txtBuscarProducto = new javax.swing.JTextField();
+        btnBuscarProducto = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        txtPrecioVenta = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        cboDia = new javax.swing.JComboBox<>();
+        cboMes = new javax.swing.JComboBox<>();
+        cboAnio = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -133,9 +141,9 @@ public class FrmSupervisor extends javax.swing.JFrame {
         jPanel1.add(jLabel6);
         jLabel6.setBounds(20, 90, 140, 26);
 
-        txtStock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel1.add(txtStock);
-        txtStock.setBounds(170, 530, 180, 26);
+        txtBuscarProveedor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel1.add(txtBuscarProveedor);
+        txtBuscarProveedor.setBounds(170, 530, 180, 26);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Ganancia");
@@ -143,48 +151,48 @@ public class FrmSupervisor extends javax.swing.JFrame {
         jLabel7.setBounds(20, 130, 140, 26);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel9.setText("Precio de venta");
+        jLabel9.setText("Precio de compra");
         jPanel1.add(jLabel9);
         jLabel9.setBounds(20, 170, 140, 26);
 
-        txtPrecioVenta.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel1.add(txtPrecioVenta);
-        txtPrecioVenta.setBounds(170, 170, 260, 26);
+        txtPrecioCompra.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel1.add(txtPrecioCompra);
+        txtPrecioCompra.setBounds(170, 170, 260, 26);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setText("Categoria");
         jPanel1.add(jLabel10);
-        jLabel10.setBounds(20, 210, 140, 26);
+        jLabel10.setBounds(20, 250, 140, 26);
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("Descuento");
         jPanel1.add(jLabel11);
-        jLabel11.setBounds(20, 250, 140, 26);
+        jLabel11.setBounds(20, 290, 140, 26);
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setText("Género");
         jPanel1.add(jLabel12);
-        jLabel12.setBounds(20, 290, 140, 26);
+        jLabel12.setBounds(20, 330, 140, 26);
 
         jPanel1.add(cboGenero);
-        cboGenero.setBounds(170, 290, 260, 26);
+        cboGenero.setBounds(170, 330, 260, 26);
 
         jPanel1.add(cboGanancia);
         cboGanancia.setBounds(170, 130, 260, 26);
 
         jPanel1.add(cboDescuento);
-        cboDescuento.setBounds(170, 250, 260, 26);
+        cboDescuento.setBounds(170, 290, 260, 26);
 
         jPanel1.add(cboCategoria);
-        cboCategoria.setBounds(170, 210, 260, 26);
+        cboCategoria.setBounds(170, 250, 260, 26);
 
         jPanel1.add(cboMarca);
-        cboMarca.setBounds(170, 330, 260, 26);
+        cboMarca.setBounds(170, 370, 260, 26);
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setText("Marca");
         jPanel1.add(jLabel13);
-        jLabel13.setBounds(20, 330, 140, 26);
+        jLabel13.setBounds(20, 370, 140, 26);
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel14.setText("Buscar proveedor");
@@ -192,7 +200,7 @@ public class FrmSupervisor extends javax.swing.JFrame {
         jLabel14.setBounds(20, 530, 130, 26);
 
         jPanel1.add(cboTalla);
-        cboTalla.setBounds(170, 370, 260, 26);
+        cboTalla.setBounds(170, 410, 260, 26);
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel15.setText("Datos del Producto");
@@ -202,24 +210,24 @@ public class FrmSupervisor extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel16.setText("Talla");
         jPanel1.add(jLabel16);
-        jLabel16.setBounds(20, 370, 140, 26);
+        jLabel16.setBounds(20, 410, 140, 26);
 
-        txtStock1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel1.add(txtStock1);
-        txtStock1.setBounds(170, 90, 260, 26);
+        txtCantidad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel1.add(txtCantidad);
+        txtCantidad.setBounds(170, 90, 260, 26);
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel17.setText("Nombre");
         jPanel1.add(jLabel17);
         jLabel17.setBounds(20, 50, 140, 26);
 
-        txtNombre1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel1.add(txtNombre1);
-        txtNombre1.setBounds(170, 50, 260, 26);
+        txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel1.add(txtNombre);
+        txtNombre.setBounds(170, 50, 260, 26);
 
-        jButton3.setText("Buscar");
-        jPanel1.add(jButton3);
-        jButton3.setBounds(360, 530, 72, 26);
+        btnBuscarProveedor.setText("Buscar");
+        jPanel1.add(btnBuscarProveedor);
+        btnBuscarProveedor.setBounds(360, 530, 72, 26);
 
         btnAgregarProducto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAgregarProducto.setText("Agregar");
@@ -250,12 +258,46 @@ public class FrmSupervisor extends javax.swing.JFrame {
         jScrollPane6.setViewportView(tablaProductos);
 
         jPanel1.add(jScrollPane6);
-        jScrollPane6.setBounds(530, 30, 650, 620);
+        jScrollPane6.setBounds(530, 60, 650, 590);
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel19.setText("Buscar producto");
+        jPanel1.add(jLabel19);
+        jLabel19.setBounds(530, 20, 130, 26);
+
+        txtBuscarProducto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel1.add(txtBuscarProducto);
+        txtBuscarProducto.setBounds(660, 20, 230, 26);
+
+        btnBuscarProducto.setText("Buscar");
+        jPanel1.add(btnBuscarProducto);
+        btnBuscarProducto.setBounds(900, 20, 72, 26);
+
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel20.setText("Precio de venta");
+        jPanel1.add(jLabel20);
+        jLabel20.setBounds(20, 450, 140, 26);
+
+        txtPrecioVenta.setEditable(false);
+        txtPrecioVenta.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel1.add(txtPrecioVenta);
+        txtPrecioVenta.setBounds(170, 450, 260, 26);
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setText("Fecha de compra");
+        jPanel1.add(jLabel8);
+        jLabel8.setBounds(20, 210, 140, 26);
+
+        jPanel1.add(cboDia);
+        cboDia.setBounds(170, 210, 60, 26);
+
+        jPanel1.add(cboMes);
+        cboMes.setBounds(240, 210, 110, 26);
+
+        jPanel1.add(cboAnio);
+        cboAnio.setBounds(360, 210, 70, 26);
 
         jTabbedPane1.addTab("Registro de Productos", jPanel1);
-
-        jPanel4.setLayout(null);
-        jTabbedPane1.addTab("Cajas", jPanel4);
 
         getContentPane().add(jTabbedPane1);
         jTabbedPane1.setBounds(60, 10, 1200, 700);
@@ -267,17 +309,21 @@ public class FrmSupervisor extends javax.swing.JFrame {
     public javax.swing.JButton btnAgregarCajero;
     public javax.swing.JButton btnAgregarProducto;
     public javax.swing.JButton btnBuscar;
+    public javax.swing.JButton btnBuscarProducto;
+    public javax.swing.JButton btnBuscarProveedor;
     public javax.swing.JButton btnCerrarSesion;
     public javax.swing.JButton btnTemaClaro;
     public javax.swing.JButton btnTemaOscuro;
+    public javax.swing.JComboBox<String> cboAnio;
     public javax.swing.JComboBox<String> cboCategoria;
     public javax.swing.JComboBox<String> cboDescuento;
+    public javax.swing.JComboBox<String> cboDia;
     public javax.swing.JComboBox<String> cboGanancia;
     public javax.swing.JComboBox<String> cboGenero;
     public javax.swing.JComboBox<String> cboMarca;
+    public javax.swing.JComboBox<String> cboMes;
     public javax.swing.JComboBox<String> cboTalla;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -288,23 +334,27 @@ public class FrmSupervisor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     public javax.swing.JTable tablaProductos;
+    public javax.swing.JTextField txtBuscarProducto;
+    public javax.swing.JTextField txtBuscarProveedor;
+    public javax.swing.JTextField txtCantidad;
     public javax.swing.JTextField txtCodigo;
-    public javax.swing.JTextField txtNombre1;
+    public javax.swing.JTextField txtNombre;
     public javax.swing.JTextField txtNombreProveedor;
+    public javax.swing.JTextField txtPrecioCompra;
     public javax.swing.JTextField txtPrecioVenta;
-    public javax.swing.JTextField txtStock;
-    public javax.swing.JTextField txtStock1;
     // End of variables declaration//GEN-END:variables
 }
