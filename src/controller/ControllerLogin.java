@@ -45,7 +45,7 @@ public class ControllerLogin implements ActionListener {
 	sesion.txtUser.addKeyListener(new KeyAdapter() {
 	    @Override
 	    public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == com.sun.glass.events.KeyEvent.VK_ENTER) {
+		if (e.getKeyCode() == java.awt.event.KeyEvent.VK_BACK_SPACE) {
 		    //intentar();
 		    nextForm(sesion.txtUser.getText(), new String(sesion.txtPassword.getPassword()));
 		}
@@ -54,7 +54,7 @@ public class ControllerLogin implements ActionListener {
 	sesion.txtPassword.addKeyListener(new KeyAdapter() {
 	    @Override
 	    public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == com.sun.glass.events.KeyEvent.VK_ENTER) {
+		if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
 		    //intentar();
 		    nextForm(sesion.txtUser.getText(), new String(sesion.txtPassword.getPassword()));
 		}

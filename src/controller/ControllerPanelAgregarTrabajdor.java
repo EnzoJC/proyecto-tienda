@@ -204,7 +204,7 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
 	    if (vista.txtDNI.getText().length() == 8) {
 		e.consume();
 	    }
-	    if (vista.txtDNI.getText().length() == 7 && e.getKeyChar() != com.sun.glass.events.KeyEvent.VK_BACKSPACE) {
+	    if (vista.txtDNI.getText().length() == 7 && e.getKeyChar() != java.awt.event.KeyEvent.VK_BACK_SPACE) {
 		isLlenito = true;
 		vista.txtDNI.putClientProperty("JComponent.outline", null);
 		vista.txtUsuario.setText(vista.txtDNI.getText() + Character.toString(e.getKeyChar()));
@@ -225,7 +225,7 @@ public class ControllerPanelAgregarTrabajdor implements ActionListener, KeyListe
     @Override
     public void keyPressed(KeyEvent e) {
 	if (e.getSource() == vista.txtDNI) {
-	    if (vista.txtDNI.getText().length() == 8 && e.getKeyChar() == com.sun.glass.events.KeyEvent.VK_BACKSPACE) {
+	    if (vista.txtDNI.getText().length() == 8 && e.getKeyChar() == java.awt.event.KeyEvent.VK_BACK_SPACE) {
 		vista.txtUsuario.setText("");
 		vista.txtDNI.putClientProperty("JComponent.outline", "error");
 		isLlenito = false;
